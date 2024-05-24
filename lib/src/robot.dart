@@ -75,7 +75,7 @@ abstract class Robot<S extends RobotScenario> {
 
     await RobotFontLoaderManager.instance.load();
 
-    final widgetToTest = IosDeviceSimulator(
+    final widgetToTest = DeviceSimulator(
       widget: widget,
       device: _device ?? overrideDevice ?? RobotDevice.medium(),
     );
@@ -179,7 +179,7 @@ abstract class Robot<S extends RobotScenario> {
         return MapEntry(
           key,
           (BuildContext context) {
-            return IosDeviceSimulator(
+            return DeviceSimulator(
               widget: value(context),
               device: _device ?? RobotDevice.medium(),
             );

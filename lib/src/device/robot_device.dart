@@ -68,13 +68,13 @@ class RobotDevice {
   }
 }
 
-class IosDeviceSimulator extends StatelessWidget {
+class DeviceSimulator extends StatelessWidget {
   final Widget widget;
   final RobotDevice device;
   static const iosHomeButonHeight = 34.0;
   static const statusBarHeight = 24.0;
   static const keyboardHeight = 282.0;
-  const IosDeviceSimulator({
+  const DeviceSimulator({
     super.key,
     required this.widget,
     required this.device,
@@ -100,13 +100,9 @@ class IosDeviceSimulator extends StatelessWidget {
           child: widget,
         ),
         if (device.withStatusBar)
-          Align(
+          const Align(
             alignment: Alignment.topCenter,
-            child: Container(
-              height: statusBarHeight,
-              width: double.maxFinite,
-              color: Colors.black.withOpacity(.4),
-            ),
+            child: _StatusBar(),
           ),
         if (device.withIOSHomeButton)
           Align(
@@ -142,5 +138,79 @@ class IosDeviceSimulator extends StatelessWidget {
           ),
       ],
     );
+  }
+}
+
+class _StatusBar extends StatelessWidget {
+  const _StatusBar({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final statusBarBrightness =
+        theme.appBarTheme.systemOverlayStyle?.statusBarBrightness;
+    final statusBarColor = theme.appBarTheme.systemOverlayStyle?.statusBarColor;
+    final iconBrightness =
+        theme.appBarTheme.systemOverlayStyle?.statusBarIconBrightness;
+    final iconColor = _getIconColor(iconBrightness);
+
+    return Container(
+      height: DeviceSimulator.statusBarHeight,
+      width: double.maxFinite,
+      color: _getStatusBarColor(statusBarBrightness, statusBarColor),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 8),
+        child: Row(
+          children: [
+            Icon(
+              Icons.abc,
+              color: iconColor,
+              size: DeviceSimulator.statusBarHeight,
+            ),
+            Expanded(child: Container()),
+            Icon(
+              Icons.signal_cellular_alt_rounded,
+              color: iconColor,
+              size: DeviceSimulator.statusBarHeight,
+            ),
+            const SizedBox(
+              width: 8,
+            ),
+            Transform.rotate(
+              angle: 1.5708,
+              child: Icon(
+                Icons.battery_5_bar_rounded,
+                color: iconColor,
+                size: DeviceSimulator.statusBarHeight,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Color _getStatusBarColor(
+    Brightness? statusBarBrightness,
+    Color? statusBarColor,
+  ) {
+    if (statusBarColor != null) {
+      return statusBarColor;
+    }
+    switch (statusBarBrightness ?? Brightness.light) {
+      case Brightness.dark:
+        return const Color(0xFFFFFFFF).withOpacity(0.4);
+      case Brightness.light:
+        return const Color(0xFF000000).withOpacity(0.4);
+    }
+  }
+
+  Color _getIconColor(Brightness? iconBrightness) {
+    switch (iconBrightness ?? Brightness.light) {
+      case Brightness.dark:
+        return const Color(0xFF000000);
+      case Brightness.light:
+        return const Color(0xFFFFFFFF);
+    }
   }
 }
