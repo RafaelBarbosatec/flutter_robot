@@ -8,7 +8,7 @@ void main() {
     'Should show small device with statusBar and IOSHomeButton',
     (tester) async {
       final robot = DevicesRobot(tester: tester, device: RobotDevice.small());
-      await robot.configure();
+      await robot.setup();
       await robot.assertSmallDeviceStatusBarIOSHomeButton();
     },
   );
@@ -17,7 +17,7 @@ void main() {
     'Should show medium device with statusBar and IOSHomeButton',
     (tester) async {
       final robot = DevicesRobot(tester: tester);
-      await robot.configure();
+      await robot.setup();
       await robot.assertMediumDeviceStatusBarIOSHomeButton();
     },
   );
@@ -26,7 +26,7 @@ void main() {
     'Should show large device with statusBar and IOSHomeButton',
     (tester) async {
       final robot = DevicesRobot(tester: tester, device: RobotDevice.large());
-      await robot.configure();
+      await robot.setup();
       await robot.assertLargeDeviceStatusBarIOSHomeButton();
     },
   );
@@ -40,7 +40,7 @@ void main() {
           withKeyboard: true,
         ),
       );
-      await robot.configure();
+      await robot.setup();
       await robot.assertMediumDeviceStatusBarIOSHomeButtonKeyboard();
     },
   );

@@ -51,7 +51,7 @@ abstract class Robot<S extends RobotScenario> {
     navigatorObserver = NavigatorObserverMock();
   }
 
-  Future<void> configure() async {
+  Future<void> setup() async {
     await scenario.injectDependencies();
     await scenario.mockScenario();
     await _widgetSetup(build());
