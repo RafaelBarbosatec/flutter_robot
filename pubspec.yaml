@@ -1,0 +1,29 @@
+name: flutter_robot
+description: "A new Flutter package project."
+version: 0.0.1
+homepage: https://github.com/RafaelBarbosatec/flutter_robot
+
+environment:
+  sdk: '>=3.4.0 <4.0.0'
+  flutter: ">=1.17.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_localizations:
+    sdk: flutter
+  flutter_test:
+    sdk: flutter
+  mocktail: ^1.0.3
+  file: any
+  platform: any
+
+dev_dependencies:
+  flutter_lints: ^3.0.0
+
+# The following section is specific to Flutter packages.
+flutter:
+  fonts:
+    - family: Roboto
+      fonts:
+        - asset: packages/flutter_robot/fonts/Roboto-Regular.ttf
