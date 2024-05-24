@@ -15,8 +15,8 @@ dependencies:
   flutter_test:
     sdk: flutter
   mocktail: ^1.0.3
-  file: any
-  platform: any
+  file: ^7.0.0
+  platform: ^3.1.4
 
 dev_dependencies:
   flutter_lints: ^3.0.0
