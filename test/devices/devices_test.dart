@@ -1,5 +1,5 @@
 import 'package:flutter/services.dart';
-import 'package:flutter_robot/src/robot.dart';
+import 'package:flutter_robot/flutter_robot.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import 'devices_robot.dart';
@@ -49,10 +49,8 @@ void main() {
   testWidgets(
     'Should show medium device with statusBar dark',
     (tester) async {
-      final robot = DevicesRobot(
-        tester: tester,
-        sytemUi: SystemUiOverlayStyle.dark
-      );
+      final robot =
+          DevicesRobot(tester: tester, sytemUi: SystemUiOverlayStyle.dark);
       await robot.setup();
       await robot.assertMediumDeviceStatusBarDark();
     },

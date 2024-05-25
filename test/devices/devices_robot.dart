@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_robot/src/robot.dart';
-import 'package:flutter_robot/src/robot_scenario.dart';
+import 'package:flutter_robot/flutter_robot.dart';
 
 import '../util/widget_test_default.dart';
 

@@ -1,5 +1,8 @@
 import 'package:flutter_test/flutter_test.dart';
 
+export 'material_icon_font_loader.dart';
+export 'pubspec_font_loader.dart';
+
 abstract class RobotFontLoader {
   bool _loaded = false;
   bool get loaded => _loaded;

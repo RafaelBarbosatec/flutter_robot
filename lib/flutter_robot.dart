@@ -1,7 +1,7 @@
 library flutter_robot;
 
-/// A Calculator.
-class Calculator {
-  /// Returns [value] plus 1.
-  int addOne(int value) => value + 1;
-}
+export 'src/device/multi_device_robot.dart';
+export 'src/device/robot_device.dart';
+export 'src/font_loader/robot_font_loader.dart';
+export 'src/robot.dart';
+export 'src/robot_scenario.dart';
