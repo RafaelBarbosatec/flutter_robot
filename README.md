@@ -9,7 +9,7 @@ Create a widget testes using the Robot Pattern!
 | ✅    | Simulate status bar   |
 | ✅    | Simulate keyboard open   |
 
-## Creating your firt Robot test
+## Creating your first Robot test
 
 Basically we need create a 2 files `{page_name}_robot.dart` and `{page_name}_test.dart`. When we need mock multi scenarios we will need create a `{page_name}_scenarios.dart`.
 
@@ -26,7 +26,7 @@ my_project
         │   feature_test.dart
 ```
 
-#### Fist step - Creating a robot
+#### First step - Creating a robot
 
 In this first example willnot use scenarios. So, we setted fixed scenario to 'RobotScenario.none()'.
 
@@ -119,7 +119,7 @@ class MyCustomIconFontLoader extends RobotFontLoader{
 
   @override
   Future<void> load() async {
-    // Loaad here your font
+    // Load here your font
   }
 }
 
