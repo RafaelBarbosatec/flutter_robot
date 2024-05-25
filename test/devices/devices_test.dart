@@ -1,3 +1,4 @@
+import 'package:flutter/services.dart';
 import 'package:flutter_robot/src/robot.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -42,6 +43,18 @@ void main() {
       );
       await robot.setup();
       await robot.assertMediumDeviceStatusBarIOSHomeButtonKeyboard();
+    },
+  );
+
+  testWidgets(
+    'Should show medium device with statusBar dark',
+    (tester) async {
+      final robot = DevicesRobot(
+        tester: tester,
+        sytemUi: SystemUiOverlayStyle.dark
+      );
+      await robot.setup();
+      await robot.assertMediumDeviceStatusBarDark();
     },
   );
 }

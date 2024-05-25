@@ -1,46 +1,28 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_robot/src/robot.dart';
 import 'package:flutter_robot/src/robot_scenario.dart';
 
+import '../util/widget_test_default.dart';
+
 class DevicesRobot extends Robot {
-  DevicesRobot({required super.tester, RobotDevice? device})
-      : super(
+  DevicesRobot({
+    required super.tester,
+    RobotDevice? device,
+    SystemUiOverlayStyle? sytemUi,
+  }) : super(
           scenario: RobotScenario.none(),
           overrideDevice: device,
+          theme: ThemeData.light().copyWith(
+            appBarTheme: const AppBarTheme().copyWith(
+              systemOverlayStyle: sytemUi,
+            ),
+          ),
         );
 
   @override
   Widget build() {
-    return Scaffold(
-      body: SafeArea(
-        child: Column(
-          children: [
-            ElevatedButton(
-              onPressed: () {},
-              child: const Text('Primary button'),
-            ),
-            const Expanded(
-              child: Center(
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Icon(Icons.account_box_outlined),
-                    FlutterLogo(
-                      size: 100,
-                    ),
-                    Icon(Icons.ac_unit_outlined),
-                  ],
-                ),
-              ),
-            ),
-            ElevatedButton(
-              onPressed: () {},
-              child: const Text('Primary button'),
-            ),
-          ],
-        ),
-      ),
-    );
+    return const WidgetTestDefault();
   }
 
   Future<void> assertMediumDeviceStatusBarIOSHomeButton() {
@@ -49,6 +31,10 @@ class DevicesRobot extends Robot {
 
   Future<void> assertMediumDeviceStatusBarIOSHomeButtonKeyboard() {
     return takeSnapshot('Device_medium_statusbar_ioshome_button_keyboard');
+  }
+
+  Future<void> assertMediumDeviceStatusBarDark() {
+    return takeSnapshot('Device_medium_statusbar_dark');
   }
 
   Future<void> assertSmallDeviceStatusBarIOSHomeButton() {

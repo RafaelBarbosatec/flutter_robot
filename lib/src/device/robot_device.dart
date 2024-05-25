@@ -16,8 +16,8 @@ class RobotDevice {
     this.pixelRatio = 1.0,
     this.textScale = 1.0,
     this.viewPadding = EdgeInsets.zero,
-    this.withIOSHomeButton = true,
-    this.withStatusBar = true,
+    this.withIOSHomeButton = false,
+    this.withStatusBar = false,
     this.withKeyboard = false,
   });
 
@@ -142,7 +142,7 @@ class DeviceSimulator extends StatelessWidget {
 }
 
 class _StatusBar extends StatelessWidget {
-  const _StatusBar({super.key});
+  const _StatusBar();
 
   @override
   Widget build(BuildContext context) {
@@ -197,11 +197,11 @@ class _StatusBar extends StatelessWidget {
     if (statusBarColor != null) {
       return statusBarColor;
     }
-    switch (statusBarBrightness ?? Brightness.light) {
+    switch (statusBarBrightness ?? Brightness.dark) {
       case Brightness.dark:
-        return const Color(0xFFFFFFFF).withOpacity(0.4);
-      case Brightness.light:
         return const Color(0xFF000000).withOpacity(0.4);
+      case Brightness.light:
+        return const Color(0xFFFFFFFF).withOpacity(0.4);
     }
   }
 

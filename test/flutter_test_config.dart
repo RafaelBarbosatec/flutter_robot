@@ -5,7 +5,7 @@ import 'package:flutter_robot/src/font_loader/pubspec_font_loader.dart';
 import 'package:flutter_robot/src/font_loader/robot_font_loader.dart';
 
 Future<void> testExecutable(FutureOr<void> Function() testMain) async {
-  RobotFontLoaderManager.instance.add(MaterialIconsFontLoader());
-  RobotFontLoaderManager.instance.add(PubspecFontLoader());
+  RobotFontLoaderManager().add(MaterialIconsFontLoader());
+  RobotFontLoaderManager().add(PubspecFontLoader());
   return testMain();
 }
