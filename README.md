@@ -82,5 +82,54 @@ void main() {
 
 ### Creating a golden files
 
-Now just run the command `flutter test --update-goldens`. If averything is ok your test will pass and create a folder named 'golden_files' and inside that the file `MyFeaturePage_screen.png`.
-Ready! When you run `flutter test` your test will validate the golden.
+Now just run the command `flutter test --update-goldens`. If averything is ok your test will pass and create a folder named `golden_files` and inside that the file `MyFeaturePage_screen.png`.
+
+Ready! When you run `flutter test` your test will validate the golden test.
+
+## Loading fonts
+
+To load fonts to show the text and icons in your golden files you can use the `RobotFontLoaderManager`.
+
+Create a file in your `test` folder named `flutter_test_config.dart`.
+
+```dart
+
+import 'dart:async';
+
+import 'package:flutter_robot/flutter_robot.dart';
+
+Future<void> testExecutable(FutureOr<void> Function() testMain) async {
+  // This load the material icons.
+  RobotFontLoaderManager().add(MaterialIconsFontLoader());
+  // This load the fonts definned in your pubspec.yml
+  RobotFontLoaderManager().add(PubspecFontLoader());
+  return testMain();
+}
+
+
+```
+
+If is need you can create your custom FontLoader. Just create a class and extends by `RobotFontLoader`.
+
+```dart
+
+import 'package:flutter_robot/flutter_robot.dart';
+
+class MyCustomIconFontLoader extends RobotFontLoader{
+
+  @override
+  Future<void> load() async {
+    // Loaad here your font
+  }
+}
+
+
+```
+
+Now adds in the `RobotFontLoaderManager`.
+
+```dart
+
+RobotFontLoaderManager().add(MyCustomIconFontLoader());
+
+```
