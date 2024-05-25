@@ -1,3 +1,5 @@
+[![Pub Version](https://img.shields.io/pub/v/flutter_robot?color=blueviolet)](https://pub.dev/packages/flutter_robot)
+
 # Flutter Robot 🤖📱
 
 Create a widget testes using the Robot Pattern!
