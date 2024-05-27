@@ -7,21 +7,23 @@ import '../util/widget_test_default.dart';
 class DevicesRobot extends Robot {
   DevicesRobot({
     required super.tester,
-    RobotDevice? device,
+    super.device,
     SystemUiOverlayStyle? sytemUi,
   }) : super(
-          scenario: RobotScenario.none(),
-          overrideDevice: device,
-          theme: ThemeData.light().copyWith(
-            appBarTheme: const AppBarTheme().copyWith(
-              systemOverlayStyle: sytemUi,
-            ),
-          ),
-        );
+            scenario: RobotScenario.none(),
+            theme: ThemeData.light().copyWith(
+              appBarTheme: const AppBarTheme().copyWith(
+                systemOverlayStyle: sytemUi,
+              ),
+            ));
 
   @override
   Widget build() {
     return const WidgetTestDefault();
+  }
+
+  Future<void> tapSecondary() {
+    return tapByText('Secondary');
   }
 
   Future<void> assertMediumDeviceStatusBarIOSHomeButton() {

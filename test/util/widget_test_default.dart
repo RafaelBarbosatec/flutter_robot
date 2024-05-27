@@ -11,13 +11,13 @@ class WidgetTestDefault extends StatelessWidget {
           children: [
             ElevatedButton(
               onPressed: () {},
-              child: const Text('Primary button'),
+              child: const Text('Primary'),
             ),
-            const Expanded(
+            Expanded(
               child: Center(
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
+                child: ListView(
+                  shrinkWrap: true,
+                  children: const [
                     Icon(Icons.account_box_outlined),
                     SizedBox(height: 16),
                     FlutterLogo(
@@ -30,8 +30,10 @@ class WidgetTestDefault extends StatelessWidget {
               ),
             ),
             ElevatedButton(
-              onPressed: () {},
-              child: const Text('Primary button'),
+              onPressed: () {
+                Navigator.of(context).pushNamed('/t');
+              },
+              child: const Text('Secondary'),
             ),
           ],
         ),

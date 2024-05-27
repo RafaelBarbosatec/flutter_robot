@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_test/flutter_test.dart';
 
 class RobotDevice {
   final String name;
@@ -74,6 +76,7 @@ class DeviceSimulator extends StatelessWidget {
   static const iosHomeButonHeight = 34.0;
   static const statusBarHeight = 24.0;
   static const keyboardHeight = 282.0;
+
   const DeviceSimulator({
     super.key,
     required this.widget,
@@ -83,6 +86,7 @@ class DeviceSimulator extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final mediaquery = MediaQuery.of(context);
+    final theme = Theme.of(context);
     return Stack(
       children: [
         MediaQuery(
@@ -100,9 +104,11 @@ class DeviceSimulator extends StatelessWidget {
           child: widget,
         ),
         if (device.withStatusBar)
-          const Align(
+          Align(
             alignment: Alignment.topCenter,
-            child: _StatusBar(),
+            child: _StatusBar(
+              systemOverlayStyle: theme.appBarTheme.systemOverlayStyle,
+            ),
           ),
         if (device.withIOSHomeButton)
           Align(
@@ -141,19 +147,45 @@ class DeviceSimulator extends StatelessWidget {
   }
 }
 
-class _StatusBar extends StatelessWidget {
-  const _StatusBar();
+class _StatusBar extends StatefulWidget {
+  final SystemUiOverlayStyle? systemOverlayStyle;
+  const _StatusBar({this.systemOverlayStyle});
+
+  @override
+  State<_StatusBar> createState() => StatusBarState();
+}
+
+class StatusBarState extends State<_StatusBar> {
+  SystemUiOverlayStyle? style;
+
+  SystemUiOverlayStyle? _getSystemOverlayStyle() {
+    try {
+      final appBar = find.byType(AppBar);
+      return (appBar.evaluate().single.widget as AppBar).systemOverlayStyle;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  void updateStyle() {
+    setState(() {
+      style = _getSystemOverlayStyle() ?? widget.systemOverlayStyle;
+    });
+  }
+
+  @override
+  void initState() {
+    style = widget.systemOverlayStyle;
+    WidgetsBinding.instance.addPostFrameCallback((_) => updateStyle());
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final statusBarBrightness =
-        theme.appBarTheme.systemOverlayStyle?.statusBarBrightness;
-    final statusBarColor = theme.appBarTheme.systemOverlayStyle?.statusBarColor;
-    final iconBrightness =
-        theme.appBarTheme.systemOverlayStyle?.statusBarIconBrightness;
+    final statusBarBrightness = style?.statusBarBrightness;
+    final statusBarColor = style?.statusBarColor;
+    final iconBrightness = style?.statusBarIconBrightness;
     final iconColor = _getIconColor(iconBrightness);
-
     return Container(
       height: DeviceSimulator.statusBarHeight,
       width: double.maxFinite,

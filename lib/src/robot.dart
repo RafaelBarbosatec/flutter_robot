@@ -24,7 +24,7 @@ abstract class Robot<S extends RobotScenario> {
 
   final List<LocalizationsDelegate>? localizationDelegate;
   final Locale locale;
-  final RobotDevice? overrideDevice;
+  final RobotDevice? device;
   final RouteFactory? onGenerateRoute;
   final List<NavigatorObserver> navigatorObservers;
   final ThemeData? theme;
@@ -37,7 +37,7 @@ abstract class Robot<S extends RobotScenario> {
     required this.tester,
     required this.scenario,
     this.localizationDelegate,
-    this.overrideDevice,
+    this.device,
     this.onGenerateRoute,
     this.navigatorObservers = const [],
     this.theme,
@@ -59,7 +59,6 @@ abstract class Robot<S extends RobotScenario> {
 
   void setDevice(RobotDevice device) {
     _device = device;
-    _applyDevice(device);
   }
 
   void _applyDevice(RobotDevice device) {
@@ -69,15 +68,14 @@ abstract class Robot<S extends RobotScenario> {
   }
 
   Future<void> _widgetSetup(Widget widget) async {
-    if (_device == null) {
-      _applyDevice(overrideDevice ?? RobotDevice.medium());
-    }
+    final deviceSelected = _device ?? device ?? RobotDevice.medium();
+    _applyDevice(deviceSelected);
 
     await RobotFontLoaderManager.instance.load();
 
     final widgetToTest = DeviceSimulator(
       widget: widget,
-      device: _device ?? overrideDevice ?? RobotDevice.medium(),
+      device: deviceSelected,
     );
 
     await tester.pumpWidget(
@@ -104,11 +102,7 @@ abstract class Robot<S extends RobotScenario> {
             onGenerateRoute: (settings) {
               _currentRouteName = settings.name ?? '';
               _currentRouteArguments = settings.arguments;
-              return onGenerateRoute?.call(settings) ??
-                  MaterialPageRoute<Widget>(
-                    builder: (_) => Container(),
-                    settings: settings,
-                  );
+              return onGenerateRoute?.call(settings);
             },
           ),
     );
