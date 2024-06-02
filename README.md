@@ -101,8 +101,8 @@ To run your `Robot` test in multi devices simulating `statusBar`,`Keyboard opene
 
 void main() {
   testWidgets('Should run in all devices', (tester) async {
-    await MultiDeviceRobot<MultiDevicesRobot>(
-      robot: MultiDevicesRobot(tester: tester),
+    await MultiDeviceRobot<MyFeaturePageRobot>(
+      robot: MyFeaturePageRobot(tester: tester),
       devices: [
         RobotDevice.small(),
         RobotDevice.medium(),
@@ -116,7 +116,6 @@ void main() {
         ),
       ],
       test: (robot, device) async {
-        final robot = MyFeaturePageRobot(tester: tester);
         await robot.setup();
         await robot.assertScreen();
       },
