@@ -160,8 +160,10 @@ class StatusBarState extends State<_StatusBar> {
 
   SystemUiOverlayStyle? _getSystemOverlayStyle() {
     try {
-      final appBar = find.byType(AppBar);
-      return (appBar.evaluate().single.widget as AppBar).systemOverlayStyle;
+      final appBar = find.byType(AnnotatedRegion<SystemUiOverlayStyle>);
+      return (appBar.evaluate().single.widget
+              as AnnotatedRegion<SystemUiOverlayStyle>)
+          .value;
     } catch (e) {
       return null;
     }

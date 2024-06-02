@@ -89,6 +89,44 @@ Now just run the command `flutter test --update-goldens`. If averything is ok yo
 
 Ready! When you run `flutter test` your test will validate the golden test.
 
+## Creating test using scenarios
+
+...
+
+## Runing test in multi devices
+
+To run your `Robot` test in multi devices simulating `statusBar`,`Keyboard opened` or `ios home button` you can use `MultiDeviceRobot`.
+
+```dart
+
+void main() {
+  testWidgets('Should run in all devices', (tester) async {
+    await MultiDeviceRobot<MultiDevicesRobot>(
+      robot: MultiDevicesRobot(tester: tester),
+      devices: [
+        RobotDevice.small(),
+        RobotDevice.medium(),
+        RobotDevice.large(),
+        RobotDevice(
+          name: 'custom',
+          sizeScreen: const Size(800, 800),
+          withStatusBar: true,
+          withKeyboard: true,
+          withIOSHomeButton: true,
+        ),
+      ],
+      test: (robot, device) async {
+        final robot = MyFeaturePageRobot(tester: tester);
+        await robot.setup();
+        await robot.assertScreen();
+      },
+    ).run();
+  });
+}
+
+```
+
+
 ## Loading fonts
 
 To load fonts to show the text and icons in your golden files you can use the `RobotFontLoaderManager`.
