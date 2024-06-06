@@ -61,6 +61,8 @@ abstract class Robot<S extends RobotScenario> {
     _device = device;
   }
 
+  Future<void> onPostPumpWidget() async {}
+
   void _applyDevice(RobotDevice device) {
     tester.view.physicalSize = device.sizeScreen;
     tester.view.devicePixelRatio = device.pixelRatio;
@@ -107,8 +109,12 @@ abstract class Robot<S extends RobotScenario> {
           ),
     );
 
+    await onPostPumpWidget();
+
     await awaitForAnimations();
   }
+
+  NavigatorState? get navigator => navigatorObserver.navigator;
 
   Future<void> awaitForAnimations({Duration? duration}) async {
     try {
