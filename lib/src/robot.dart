@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_robot/src/font_loader/robot_font_loader.dart';
 import 'package:flutter_robot/src/robot_scenario.dart';
+import 'package:flutter_robot/src/test_asset_bundle.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 
@@ -33,6 +34,8 @@ abstract class Robot<S extends RobotScenario> {
 
   Widget build();
 
+  List<ImageProvider> get assets => [];
+
   Robot({
     required this.tester,
     required this.scenario,
@@ -61,7 +64,11 @@ abstract class Robot<S extends RobotScenario> {
     _device = device;
   }
 
-  Future<void> onPostPumpWidget() async {}
+  Future<void> onLoadAssets() async {
+    for (final asset in assets) {
+      await _loadImageAsset(asset);
+    }
+  }
 
   void _applyDevice(RobotDevice device) {
     tester.view.physicalSize = device.sizeScreen;
@@ -81,37 +88,40 @@ abstract class Robot<S extends RobotScenario> {
     );
 
     await tester.pumpWidget(
-      wrapper?.call(widgetToTest) ??
-          MaterialApp(
-            debugShowCheckedModeBanner: false,
-            theme: theme,
-            navigatorObservers: [
-              navigatorObserver,
-              ...navigatorObservers,
-            ],
-            localizationsDelegates: [
-              if (localizationDelegate != null) ...localizationDelegate!,
-              GlobalMaterialLocalizations.delegate,
-              GlobalWidgetsLocalizations.delegate,
-              GlobalCupertinoLocalizations.delegate,
-            ],
-            locale: locale,
-            supportedLocales: [locale],
-            routes: {
-              '/': (_) => widgetToTest,
-              ..._mapRoutes(),
-            },
-            onGenerateRoute: (settings) {
-              _currentRouteName = settings.name ?? '';
-              _currentRouteArguments = settings.arguments;
-              return onGenerateRoute?.call(settings);
-            },
-          ),
+      DefaultAssetBundle(
+        bundle: TestAssetBundle(),
+        child: wrapper?.call(widgetToTest) ??
+            MaterialApp(
+              debugShowCheckedModeBanner: false,
+              theme: theme,
+              navigatorObservers: [
+                navigatorObserver,
+                ...navigatorObservers,
+              ],
+              localizationsDelegates: [
+                if (localizationDelegate != null) ...localizationDelegate!,
+                GlobalMaterialLocalizations.delegate,
+                GlobalWidgetsLocalizations.delegate,
+                GlobalCupertinoLocalizations.delegate,
+              ],
+              locale: locale,
+              supportedLocales: [locale],
+              routes: {
+                '/': (_) => widgetToTest,
+                ..._mapRoutes(),
+              },
+              onGenerateRoute: (settings) {
+                _currentRouteName = settings.name ?? '';
+                _currentRouteArguments = settings.arguments;
+                return onGenerateRoute?.call(settings);
+              },
+            ),
+      ),
     );
 
-    await onPostPumpWidget();
+    await tester.pumpAndSettle();
 
-    await awaitForAnimations();
+    await onLoadAssets();
   }
 
   NavigatorState? get navigator => navigatorObserver.navigator;
@@ -165,7 +175,7 @@ abstract class Robot<S extends RobotScenario> {
     expect(_currentRouteArguments, matcher);
   }
 
-  Future<void> loadImageAsset(ImageProvider provider) async {
+  Future<void> _loadImageAsset(ImageProvider provider) async {
     await tester.runAsync(() async {
       Element element = tester.element(find.byType(MaterialApp));
       await precacheImage(provider, element);
