@@ -111,8 +111,9 @@ abstract class ExamplePageScenarios extends RobotScenario{
 
 We not go do anything here in the moment. But you already can know that in `injectDependencies` method you will insert the code of inject the page dependencies and the `mockScenario` method you will insert the code of mock the specific scenarios.
 
-After then lets implements a base of your robot file. This will be responsible to initialize your widget, load AppLocalizations, interact with the WidgetTester API and other things.
-`
+After then lets implements a base of your robot file.
+
+`example_page_robot.dart`
 
 ```dart
 
@@ -208,6 +209,8 @@ If you are providing the cubit by provider you can wrap the widget with BlocProv
 ```
 
 3. Create a test
+
+`example_page_test.dart`
 
 ``` dart
 
