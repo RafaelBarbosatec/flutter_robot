@@ -232,6 +232,8 @@ void main() {
 
 ```
 
+That is it. Now just run command to create a golden files if you using the golden test.
+
 ## Runing test in multi devices
 
 To run your `Robot` test in multi devices simulating `statusBar`,`Keyboard opened` or `ios home button` you can use `MultiDeviceRobot`.
