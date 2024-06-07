@@ -1,3 +1,8 @@
+## 0.1.3
+
+* Adds TestAssetBundle.
+* Update CHANGELOG
+
 ## 0.0.2
 
 * Adds status bar simulate

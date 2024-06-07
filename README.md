@@ -31,7 +31,7 @@ my_project
 
 #### First step - Creating a robot
 
-In this first example willnot use scenarios. So, we setted fixed scenario to 'RobotScenario.none()'.
+In this first example will not use scenarios. So, we setted fixed scenario to 'RobotScenario.none()'.
 
 `my_feature_page_robot.dart`
 
@@ -91,7 +91,143 @@ Ready! When you run `flutter test` your test will validate the golden test.
 
 ## Creating test using scenarios
 
-...
+The first step is create a `scenarios` file. Just create a class and extending of `RobotScenario`:
+
+
+`example_page_scenarios.dart`
+
+```dart
+
+abstract class ExamplePageScenarios extends RobotScenario{
+  @override
+  FutureOr<void> injectDependencies() {}
+
+  @override
+  FutureOr<void> mockScenario() {}
+
+}
+
+```
+
+We not go do anything here in the moment. But you already can know that in `injectDependencies` method you will insert the code of inject the page dependencies and the `mockScenario` method you will insert the code of mock the specific scenarios.
+
+After then lets implements a base of your robot file. This will be responsible to initialize your widget, load AppLocalizations, interact with the WidgetTester API and other things.
+`
+
+```dart
+
+class ExamplePageRobot extends Robot<ExamplePageScenarios> {
+  ExamplePageRobot({
+    required super.tester,
+    required super.scenario,
+  });
+
+  @override
+  Widget build() {
+    return const ExamplePage();
+  }
+}
+
+```
+
+Great, you have da base! Now just adds your interactions and validations.
+
+Lets go create a test with golden validation to success scenario:
+
+1. Create a success scenario in `example_page_scenarios.dart`:
+
+```dart
+
+class GetExampleInfoUsecaseMock extends Mock implements GetExampleInfoUsecase {}
+
+abstract class ExamplePageScenarios extends RobotScenario {
+  late GetExampleInfoUsecase usecase;
+  late ExampleCubit cubit;
+
+  ExamplePageScenarions() {
+    usecase = GetExampleInfoUsecaseMock();
+    cubit = ExampleCubit(usecase: usecase);
+  }
+
+  @override
+  FutureOr<void> injectDependencies() {
+    servideLocator.registerFactory(() => cubit);
+  }
+
+  @override
+  FutureOr<void> mockScenario() {}
+}
+
+class ExamplePageSuccess extends ExamplePageScenarios {
+  @override
+  FutureOr<void> mockScenario() async {
+    await super.mockScenario();
+    when(() => usecase.call()).thenAnswer((_) async => 'Example Info');
+  }
+}
+
+```
+
+2. Create a method to validate the golden files in your 'Robot' file.
+
+
+```dart
+
+class ExamplePageRobot extends Robot<ExamplePageScenarios> {
+  ExamplePageRobot({
+    required super.tester,
+    required super.scenario,
+  });
+
+  @override
+  Widget build() {
+    return const ExamplePage();
+  }
+
+  Future<void> assertSuccessScreenGolden(){
+    return takeSnapshot('ExamplePage_success');
+  }
+}
+
+
+```
+
+If you are providing the cubit by provider you can wrap the widget with BlocProvider in the build method:
+
+
+```dart
+
+  @override
+  Widget build() {
+    return BlocProvider(
+      create: (context) => scenario.cubit,
+      child: const ExamplePage(),
+    );
+  }
+
+```
+
+3. Create a test
+
+``` dart
+
+import 'package:flutter_test/flutter_test.dart';
+
+import 'example_page_robot.dart';
+import 'example_page_scenarios.dart';
+
+void main() {
+  testWidgets('Should show the success case correctly', (tester) async {
+    final robot = ExamplePageRobot(
+      tester: tester,
+      scenario: ExamplePageSuccess(),
+    );
+    await robot.configure();
+    await robot.assertSuccessScreenGolden();
+  });
+}
+
+```
 
 ## Runing test in multi devices
 
@@ -173,3 +309,32 @@ Now adds in the `RobotFontLoaderManager`.
 RobotFontLoaderManager().add(MyCustomIconFontLoader());
 
 ```
+
+## Loading Assets
+
+If your test need load some assets like a image to show in golden just pass it in the 'assets' get in your 'Robot' class.
+
+```dart
+
+class MyFeaturePageRobot extends Robot {
+  DevicesRobot({
+    required super.tester,
+  }) : super(
+          scenario: RobotScenario.none(),
+        );
+
+  @override
+  List<ImageProvider<Object>> get assets => [
+        const AssetImage('my/path/image.png'),
+      ];
+
+  @override
+  Widget build() {
+    return const MyFeaturePage();
+  }
+
+}
+
+```
+
+If you need load a asset diferrent of ImageProvider you can do override of method `onLoadAssets` and do it there.
