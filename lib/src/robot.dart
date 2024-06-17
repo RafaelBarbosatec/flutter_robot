@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter_robot/src/assets/assets_loader.dart';
+import 'package:flutter_robot/src/assets/test_asset_bundle.dart';
 import 'package:flutter_robot/src/font_loader/robot_font_loader.dart';
 import 'package:flutter_robot/src/robot_scenario.dart';
-import 'package:flutter_robot/src/test_asset_bundle.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 
@@ -34,8 +35,6 @@ abstract class Robot<S extends RobotScenario> {
 
   Widget build();
 
-  List<ImageProvider> get assets => [];
-
   Robot({
     required this.tester,
     required this.scenario,
@@ -65,8 +64,9 @@ abstract class Robot<S extends RobotScenario> {
   }
 
   Future<void> onLoadAssets() async {
-    for (final asset in assets) {
-      await _loadImageAsset(asset);
+    final result = await AssetsLoader.defaultPrimeAssets(tester);
+    if (result) {
+      await tester.pumpAndSettle();
     }
   }
 
@@ -173,14 +173,6 @@ abstract class Robot<S extends RobotScenario> {
 
   void assertNavigatorArguments(dynamic matcher) {
     expect(_currentRouteArguments, matcher);
-  }
-
-  Future<void> _loadImageAsset(ImageProvider provider) async {
-    await tester.runAsync(() async {
-      Element element = tester.element(find.byType(MaterialApp));
-      await precacheImage(provider, element);
-      await tester.pumpAndSettle();
-    });
   }
 
   Map<String, WidgetBuilder> _mapRoutes() {
