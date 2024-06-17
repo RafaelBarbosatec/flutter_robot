@@ -66,7 +66,7 @@ abstract class Robot<S extends RobotScenario> {
   Future<void> onLoadAssets() async {
     final result = await AssetsLoader.defaultPrimeAssets(tester);
     if (result) {
-      await tester.pumpAndSettle();
+      await tester.pump();
     }
   }
 

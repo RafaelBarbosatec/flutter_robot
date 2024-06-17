@@ -1,3 +1,3 @@
 abstract class WeatherImages {
-  static const sunny = 'assets/sunny.webp';
+  static const sunny = 'assets/sunny.png';
 }
