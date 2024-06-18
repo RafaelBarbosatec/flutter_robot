@@ -4,6 +4,7 @@ class WeatherEntity {
   final WeatherLocationEntity location;
   final WeatherConditionEntity condition;
   final bool isDay;
+  final DateTime lastUpdated;
 
   WeatherEntity({
     required this.tempC,
@@ -11,6 +12,7 @@ class WeatherEntity {
     required this.location,
     required this.condition,
     required this.isDay,
+    required this.lastUpdated,
   });
 }
 

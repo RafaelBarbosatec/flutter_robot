@@ -63,69 +63,71 @@ class _Content extends StatelessWidget {
       decoration: BoxDecoration(
         gradient: weather.isDay ? WeatherGradients.day : WeatherGradients.night,
       ),
-      child: Column(
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                '${weather.location.region} - ${weather.location.country}',
-                style: TextStyle(
-                  color: _getTextColor(textBrightess),
-                  fontWeight: FontWeight.w300,
+      child: SafeArea(
+        child: Column(
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  '${weather.location.region} - ${weather.location.country}',
+                  style: TextStyle(
+                    color: _getTextColor(textBrightess),
+                    fontWeight: FontWeight.w300,
+                  ),
                 ),
-              ),
-              Text(
-                '23:13',
-                style: TextStyle(
-                  color: _getTextColor(textBrightess),
-                  fontWeight: FontWeight.w200,
+                Text(
+                  '${weather.lastUpdated.hour}:${weather.lastUpdated.minute}',
+                  style: TextStyle(
+                    color: _getTextColor(textBrightess),
+                    fontWeight: FontWeight.w200,
+                  ),
                 ),
-              ),
-            ],
-          ),
-          Expanded(
-            child: Center(
-              child: ListView(
-                shrinkWrap: true,
-                children: [
-                  Center(
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 32,
-                        vertical: 16,
-                      ),
-                      child: Image.asset(
-                        WeatherImages.sunny,
-                      ),
-                    ),
-                  ),
-                  Center(
-                    child: Text(
-                      weather.condition.text,
-                      style: TextStyle(
-                        color: _getTextColor(textBrightess),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 8,
-                  ),
-                  Center(
-                    child: Text(
-                      '${weather.tempC.toInt()}º',
-                      style: TextStyle(
-                        color: _getTextColor(textBrightess),
-                        fontWeight: FontWeight.bold,
-                        fontSize: 43,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
+              ],
             ),
-          )
-        ],
+            Expanded(
+              child: Center(
+                child: ListView(
+                  shrinkWrap: true,
+                  children: [
+                    Center(
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 32,
+                          vertical: 16,
+                        ),
+                        child: Image.asset(
+                          WeatherImages.sunny,
+                        ),
+                      ),
+                    ),
+                    Center(
+                      child: Text(
+                        weather.condition.text,
+                        style: TextStyle(
+                          color: _getTextColor(textBrightess),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 8,
+                    ),
+                    Center(
+                      child: Text(
+                        '${weather.tempC.toInt()}º',
+                        style: TextStyle(
+                          color: _getTextColor(textBrightess),
+                          fontWeight: FontWeight.bold,
+                          fontSize: 43,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            )
+          ],
+        ),
       ),
     );
   }

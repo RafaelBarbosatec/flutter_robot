@@ -11,7 +11,7 @@ class HomeController {
 
   Future<void> load() async {
     state.value = HomeStateLoading(text: 'Obtendo tempo...');
-    final resp = await usecase('São Paulo');
+    final resp = await usecase();
     state.value = HomeStateLoaded(weather: resp);
   }
 }

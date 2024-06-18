@@ -17,6 +17,7 @@ abstract class WeatherEntityMapper {
         text: model.current.condition.text,
         code: model.current.condition.code,
       ),
+      lastUpdated: DateTime.parse( model.current.lastUpdated),
     );
   }
 }

@@ -1,3 +1,4 @@
+import 'package:flutter_robot_example/src/data/ip_location_datasource.dart';
 import 'package:flutter_robot_example/src/data/weather_datasource.dart';
 import 'package:flutter_robot_example/src/domain/usercases/get_weather_usecase.dart';
 import 'package:flutter_robot_example/src/infra/adapters/http/http_adapter.dart';
@@ -17,10 +18,19 @@ abstract class Bootstrap {
     ServiceLocator.putLazySingleton<HttpClient>(
       () => HttpAdapter(
         baseUrl: 'https://api.weatherapi.com/v1/',
-        
+        queryParams: {
+          'key': '549c54d6794f4e3f8c0223533241706',
+        },
       ),
       instanceName: weatherAPIStanceName,
     );
+
+    ServiceLocator.putLazySingleton<IpLocationDatasource>(() {
+      return IpLocationDatasourceImpl(
+          client: ServiceLocator.get(
+        instanceName: ipAPIStanceName,
+      ));
+    });
 
     ServiceLocator.putFactory<WeatherDatasource>(() {
       return WeatherDatasourceImpl(
@@ -33,6 +43,7 @@ abstract class Bootstrap {
     ServiceLocator.putFactory<GetWeatherUsecase>(() {
       return GetWeatherUsecaseImpl(
         weatherDatasource: ServiceLocator.get(),
+        ipLocationDatasource: ServiceLocator.get(),
       );
     });
 
