@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_robot_example/src/bootstrap.dart';
 import 'package:flutter_robot_example/src/presentation/home/home_page.dart';
 
-void main() {
+void main() async {
+  
+  await Bootstrap.run();
   runApp(const MyApp());
 }
 
