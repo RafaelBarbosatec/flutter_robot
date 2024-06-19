@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_robot_example/src/domain/entities/weather_entity.dart';
+import 'package:flutter_robot_example/src/infra/base/controller_builder.dart';
 import 'package:flutter_robot_example/src/infra/constants/weather_gradients.dart';
-import 'package:flutter_robot_example/src/infra/constants/weather_images.dart';
 import 'package:flutter_robot_example/src/infra/di/service_locator.dart';
-import 'package:flutter_robot_example/src/presentation/home/home_controller.dart';
+import 'package:flutter_robot_example/src/presentation/home/controller/home_controller.dart';
+import 'package:flutter_robot_example/src/presentation/home/controller/home_state.dart';
+import 'package:flutter_robot_example/src/presentation/home/weather_img_mapper.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -25,12 +27,12 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: ListenableBuilder(
-        listenable: controller.state,
-        builder: (context, snapshot) {
+      body: ControllerBuilder<HomeState>(
+        controller: controller,
+        builder: (context, state) {
           return AnimatedSwitcher(
             duration: const Duration(milliseconds: 300),
-            child: controller.state.value.whenOr(
+            child: state.whenOr(
               loading: (text) {
                 return Center(
                   child: Text(text),
@@ -51,17 +53,18 @@ class _HomePageState extends State<HomePage> {
 }
 
 class _Content extends StatelessWidget {
+  static const imgSize = 200.0;
   final WeatherEntity weather;
-  const _Content({super.key, required this.weather});
+  const _Content({required this.weather});
 
   @override
   Widget build(BuildContext context) {
     Brightness textBrightess =
-        weather.isDay ? Brightness.dark : Brightness.light;
+        weather.condition.isCLoudy ? Brightness.light : Brightness.dark;
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        gradient: weather.isDay ? WeatherGradients.day : WeatherGradients.night,
+        gradient: _getGradient(weather.isDay, weather.condition.isCLoudy),
       ),
       child: SafeArea(
         child: Column(
@@ -77,7 +80,7 @@ class _Content extends StatelessWidget {
                   ),
                 ),
                 Text(
-                  '${weather.lastUpdated.hour}:${weather.lastUpdated.minute}',
+                  _getTime(weather.lastUpdated),
                   style: TextStyle(
                     color: _getTextColor(textBrightess),
                     fontWeight: FontWeight.w200,
@@ -91,13 +94,28 @@ class _Content extends StatelessWidget {
                   shrinkWrap: true,
                   children: [
                     Center(
-                      child: Padding(
+                      child: Container(
+                        constraints: const BoxConstraints(
+                          maxWidth: imgSize,
+                          maxHeight: imgSize,
+                        ),
                         padding: const EdgeInsets.symmetric(
                           horizontal: 32,
                           vertical: 16,
                         ),
+                        decoration: BoxDecoration(
+                          gradient: RadialGradient(
+                            colors: [
+                              Colors.white.withOpacity(0.4),
+                              Colors.white.withOpacity(0.0),
+                            ],
+                          ),
+                        ),
                         child: Image.asset(
-                          WeatherImages.sunny,
+                          WeatherImgMapper.mapWeatherConditionToImage(
+                            weather.condition,
+                            weather.isDay,
+                          ),
                         ),
                       ),
                     ),
@@ -133,9 +151,18 @@ class _Content extends StatelessWidget {
   }
 
   Color _getTextColor(Brightness textBrightess) {
-    return switch (textBrightess) {
-      Brightness.dark => Colors.white,
-      Brightness.light => Colors.black,
-    };
+    return textBrightess == Brightness.dark ? Colors.white : Colors.black;
+  }
+
+  String _getTime(DateTime lastUpdated) {
+    return '${lastUpdated.hour.toString().padLeft(2, '0')}:${lastUpdated.minute.toString().padLeft(2, '0')}';
+  }
+
+  LinearGradient _getGradient(bool isDay, bool isCLoudy) {
+    if (isDay) {
+      return isCLoudy ? WeatherGradients.dayCloudy : WeatherGradients.day;
+    } else {
+      return WeatherGradients.night;
+    }
   }
 }

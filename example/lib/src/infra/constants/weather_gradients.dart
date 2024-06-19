@@ -22,6 +22,7 @@ abstract class WeatherGradients {
   static const LinearGradient night = LinearGradient(
     colors: [
       Color(0xff1D2837),
+      Color.fromARGB(255, 31, 44, 63),
     ],
   );
 }

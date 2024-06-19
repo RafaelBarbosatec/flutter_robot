@@ -35,4 +35,6 @@ class WeatherConditionEntity {
   final int code;
 
   WeatherConditionEntity({required this.text, required this.code});
+
+  bool get isCLoudy => code == 1003 || code == 1006 || code == 1009;
 }

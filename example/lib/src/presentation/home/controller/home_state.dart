@@ -7,6 +7,7 @@ abstract class HomeState {
     T Function()? initial,
     T Function(String text)? loading,
     T Function(WeatherEntity eather)? loaded,
+    T Function()? error,
     required T Function() or,
   }) {
     switch (runtimeType) {
@@ -16,6 +17,8 @@ abstract class HomeState {
         return loading?.call((this as HomeStateLoading).text) ?? or();
       case HomeStateLoaded:
         return loaded?.call((this as HomeStateLoaded).weather) ?? or();
+      case HomeStateError:
+        return error?.call() ?? or();
       default:
         return or();
     }
@@ -35,3 +38,5 @@ class HomeStateLoaded extends HomeState {
 
   HomeStateLoaded({required this.weather});
 }
+
+class HomeStateError extends HomeState {}
