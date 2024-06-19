@@ -317,29 +317,11 @@ RobotFontLoaderManager().add(MyCustomIconFontLoader());
 
 ## Loading Assets
 
-If your test need load some assets like a image to show in golden just pass it in the 'assets' get in your 'Robot' class.
-
-```dart
-
-class MyFeaturePageRobot extends Robot {
-  DevicesRobot({
-    required super.tester,
-  }) : super(
-          scenario: RobotScenario.none(),
-        );
-
-  @override
-  List<ImageProvider<Object>> get assets => [
-        const AssetImage('my/path/image.png'),
-      ];
-
-  @override
-  Widget build() {
-    return const MyFeaturePage();
-  }
-
-}
-
-```
+The robot will try load all ImageProvider present in the widget tree.
 
 If you need load a asset diferrent of ImageProvider you can do override of method `onLoadAssets` and do it there.
+
+
+## Example
+
+You can see a example [here]()
