@@ -324,4 +324,11 @@ If you need load a asset diferrent of ImageProvider you can do override of metho
 
 ## Example
 
-You can see a example [here]()
+| Sunny |  Night   |  Sunny cloudy   |
+| :---:   | :---: | :---: |
+| ![](https://github.com/RafaelBarbosatec/flutter_robot/blob/main/example/test/presentation/home/golden_files/HomePage_sunny.png) | ![](https://github.com/RafaelBarbosatec/flutter_robot/blob/main/example/test/presentation/home/golden_files/HomePage_night_clear.png)   | ![](https://github.com/RafaelBarbosatec/flutter_robot/blob/main/example/test/presentation/home/golden_files/HomePage_sunny_cloudy.png)   |
+
+
+
+
+You can see a example [here](https://github.com/RafaelBarbosatec/flutter_robot/blob/main/example)
