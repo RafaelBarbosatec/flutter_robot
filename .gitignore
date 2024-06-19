@@ -29,4 +29,3 @@ migrate_working_dir/
 build/
 test/**/failure/
 .fvm
-.env
