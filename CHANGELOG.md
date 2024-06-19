@@ -1,3 +1,8 @@
+## 0.1.1
+
+* Load ImageProvider automatically
+* Adds example.
+
 ## 0.1.0
 
 * Adds TestAssetBundle.
