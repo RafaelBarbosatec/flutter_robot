@@ -5,7 +5,7 @@
 
 Create a widget testes using the Robot Pattern!
 
-It is a good option to create testes to your 'page' validating the correct interaction between (controller)<->(widget).
+It is a good option to create testes to your `page` validating the correct interaction between (controller) <-> (widget).
 
 This way can validate if your view show/do exactly you expected in each state of controller(cubit/bloc/mobx/etc).
 
