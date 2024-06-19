@@ -1,3 +1,4 @@
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_robot_example/src/data/ip_location_datasource.dart';
 import 'package:flutter_robot_example/src/data/weather_datasource.dart';
 import 'package:flutter_robot_example/src/domain/usercases/get_string_location_usecase.dart';
@@ -12,6 +13,7 @@ abstract class Bootstrap {
   static const ipAPIStanceName = 'ip-api';
   static const weatherAPIStanceName = 'weather-api';
   static Future<void> run() async {
+    await dotenv.load(fileName: ".env");
     ServiceLocator.putLazySingleton<HttpClient>(
       () => HttpAdapter(baseUrl: 'http://ip-api.com/'),
       instanceName: ipAPIStanceName,
@@ -21,7 +23,7 @@ abstract class Bootstrap {
       () => HttpAdapter(
         baseUrl: 'https://api.weatherapi.com/v1/',
         queryParams: {
-          'key': '549c54d6794f4e3f8c0223533241706',
+          'key': dotenv.env['WEATHER_API_KEY'],
         },
       ),
       instanceName: weatherAPIStanceName,

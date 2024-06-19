@@ -1,16 +1,7 @@
-# flutter_robot_example
+# Weather APP
 
-A new Flutter project.
+A Flutter project example of `flutter_robot`.
 
 ## Getting Started
 
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+Create a file `.env` and put key `WEATHER_API_KEY=`. You can get this api key in `https://www.weatherapi.com/`
