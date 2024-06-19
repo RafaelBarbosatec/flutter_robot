@@ -26,4 +26,8 @@ abstract class ServiceLocator {
       instanceName: instanceName,
     );
   }
+
+  static Future<void> reset() {
+    return getIt.reset();
+  }
 }
