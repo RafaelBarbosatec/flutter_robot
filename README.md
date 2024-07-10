@@ -324,6 +324,8 @@ The robot will try load all ImageProvider present in the widget tree.
 
 If you need load a asset diferrent of ImageProvider you can do override of method `onLoadAssets` and do it there.
 
+To load assets manually you can call `await loadImageProvider(ImageProvider provider);`;
+
 
 ## Golden files of example tests
 
