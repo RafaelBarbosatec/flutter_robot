@@ -187,11 +187,11 @@ abstract class Robot<S extends RobotScenario> {
 
   Future<void> loadAsyncImageProvider(ImageProvider provider) async {
     await tester.runAsync(() async {
-      await _loadImageProvider(provider);
+      await loadImageProvider(provider);
     });
   }
 
-  Future<void> _loadImageProvider(ImageProvider provider) async {
+  Future<void> loadImageProvider(ImageProvider provider) async {
     Element element = tester.element(find.byType(MaterialApp));
     await precacheImage(provider, element);
     await tester.pumpAndSettle();

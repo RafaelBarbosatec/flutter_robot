@@ -322,9 +322,9 @@ RobotFontLoaderManager().add(MyCustomIconFontLoader());
 
 The robot will try load all ImageProvider present in the widget tree.
 
-If you need load a asset diferrent of ImageProvider you can do override of method `onLoadAssets` and do it there.
+If you need load a asset diferrent of ImageProvider you can do override of method `onLoadAssets` and do it there using `loadImageProvider`.
 
-To load assets manually you can call `await loadAsyncImageProvider(ImageProvider provider);`;
+To load assets manually during the test you can call `loadAsyncImageProvider`;
 
 
 ## Golden files of example tests
