@@ -185,12 +185,16 @@ abstract class Robot<S extends RobotScenario> {
     timer.cancel();
   }
 
-  Future<void> loadImageProvider(ImageProvider provider) async {
+  Future<void> loadAsyncImageProvider(ImageProvider provider) async {
     await tester.runAsync(() async {
-      Element element = tester.element(find.byType(MaterialApp));
-      await precacheImage(provider, element);
-      await tester.pumpAndSettle();
+      await _loadImageProvider(provider);
     });
+  }
+
+  Future<void> _loadImageProvider(ImageProvider provider) async {
+    Element element = tester.element(find.byType(MaterialApp));
+    await precacheImage(provider, element);
+    await tester.pumpAndSettle();
   }
 
   void assertNavigatorRoute(String routeName) {
