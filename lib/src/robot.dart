@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_robot/src/assets/assets_loader.dart';
@@ -64,10 +66,8 @@ abstract class Robot<S extends RobotScenario> {
   }
 
   Future<void> onLoadAssets() async {
-    final result = await AssetsLoader.defaultPrimeAssets(tester);
-    if (result) {
-      await tester.pump();
-    }
+    await AssetsLoader.defaultPrimeAssets(tester);
+    await tester.pump();
   }
 
   void _applyDevice(RobotDevice device) {
@@ -121,7 +121,7 @@ abstract class Robot<S extends RobotScenario> {
 
     await tester.pumpAndSettle();
 
-    await onLoadAssets();
+    await tester.runAsync(onLoadAssets);
   }
 
   NavigatorState? get navigator => navigatorObserver.navigator;
@@ -165,6 +165,24 @@ abstract class Robot<S extends RobotScenario> {
 
   Future<void> enterTextByKey(Key key, String text) {
     return enterText(find.byKey(key), text);
+  }
+
+  Future<void> pumpUntilFound(
+    WidgetTester tester,
+    Finder finder, {
+    Duration timeout = const Duration(seconds: 10),
+  }) async {
+    bool timerDone = false;
+    final timer = Timer(timeout, () => timerDone = true);
+    while (timerDone != true) {
+      await tester.pump();
+
+      final found = tester.any(finder);
+      if (found) {
+        timerDone = true;
+      }
+    }
+    timer.cancel();
   }
 
   void assertNavigatorRoute(String routeName) {
