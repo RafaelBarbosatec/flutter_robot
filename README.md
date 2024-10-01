@@ -94,6 +94,15 @@ Ready! When you run `flutter test` your test will validate the golden test.
 
 ## Creating test using scenarios
 
+First of all, What is `scenarios` here?
+`Scenarios` is a group of mocks that help you to arrive in especific state of your controller to validate it.
+
+In this kind of test we don't do mock the controller, we mock the controller dependencies.
+
+The idea here is testing the controller and the view.
+
+So, let's keep going!
+
 The first step is create a `scenarios` file. Just create a class and extending of `RobotScenario`:
 
 
@@ -331,9 +340,7 @@ To load assets manually during the test you can call `loadAsyncImageProvider`;
 
 | Sunny |  Night   |  Sunny cloudy   |
 | :---:   | :---: | :---: |
-| ![](https://github.com/RafaelBarbosatec/flutter_robot/blob/main/example/test/presentation/home/golden_files/HomePage_sunny.png) | ![](https://github.com/RafaelBarbosatec/flutter_robot/blob/main/example/test/presentation/home/golden_files/HomePage_night_clear.png)   | ![](https://github.com/RafaelBarbosatec/flutter_robot/blob/main/example/test/presentation/home/golden_files/HomePage_sunny_cloudy.png)   |
-
-
+| ![](https://raw.githubusercontent.com/RafaelBarbosatec/flutter_robot/refs/heads/main/example/test/presentation/home/golden_files/HomePage_sunny.png) | ![](https://raw.githubusercontent.com/RafaelBarbosatec/flutter_robot/refs/heads/main/example/test/presentation/home/golden_files/HomePage_night_clear.png)   | ![](https://raw.githubusercontent.com/RafaelBarbosatec/flutter_robot/refs/heads/main/example/test/presentation/home/golden_files/HomePage_sunny_cloudy.png)   |
 
 
 You can see a example [here](https://github.com/RafaelBarbosatec/flutter_robot/blob/main/example)
