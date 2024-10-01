@@ -121,7 +121,7 @@ abstract class ExamplePageScenarios extends RobotScenario{
 
 ```
 
-We not go do anything here in the moment. But you already can know that in `injectDependencies` method you will insert the code of inject the page dependencies and the `mockScenario` method you will insert the code of mock the specific scenarios.
+We not go do anything here in the moment. But you already can know that in `injectDependencies` method you will insert the code of inject the page dependencies and the `mockScenario` method you will insert the code of do mock of dependencies.
 
 After then lets implements a base of your robot file.
 
