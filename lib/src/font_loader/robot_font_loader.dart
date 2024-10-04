@@ -24,6 +24,7 @@ class RobotFontLoaderManager {
   final List<RobotFontLoader> _loaders = [];
 
   void add(RobotFontLoader loader) => _loaders.add(loader);
+  void addAll(List<RobotFontLoader> loaders) => _loaders.addAll(loaders);
   void clean() => _loaders.clear();
 
   Future<void> load() async {
