@@ -17,8 +17,8 @@ It is a good option to create testes to your `page` validating the correct inter
 
 ## Installation
 
-Add it to your [`pubspec.yaml`][pubspec]
-as a [dev_dependencies][] by running the following command.
+Add it to your `pubspec.yaml`
+as a `dev_dependencies` by running the following command.
 
 ```console
 $ dart pub add dev:flutter_robot
@@ -348,9 +348,9 @@ To load assets manually during the test you can call `loadAsyncImageProvider`;
 
 Is common we work in the OS different than CI. In this cases could get breaked tests by little difference of pixels in your golden test when running in CI.
 
-To try avoid this failures you could set a 'threshold'. The 'threshold' default is 1%, tha is, if the golden test failure with 0.5% of diff your test will pass.
+To try avoid this failures you could set a `threshold`. The `threshold` default is 1%, tha is, if the golden test failure with 0.5% of diff your test will pass.
 
-To change this default value you can set it in 'RobotFileComparator'.
+To change this default value you can set it in `RobotFileComparator`.
 
 Using the file `flutter_test_config.dart`:
 
@@ -368,7 +368,7 @@ Future<void> testExecutable(FutureOr<void> Function() testMain) async {
 
 ```
 
-You also can setting a specific 'threshold' to a Robot, just pass the param 'goldenThreshold' in your super. This way just in this Robot test will use this 'threshold':
+You also can setting a specific `threshold` to a Robot, just pass the param `goldenThreshold` in your super. This way just in this Robot test will use this `threshold`:
 
 ```dart
 
@@ -383,7 +383,7 @@ class ExamplePageRobot extends Robot {
 
 ```
 
-If necessary you can customize the functions 'compare', 'udpdate', or 'getTestUri' of 'RobotFileComparator'.
+If necessary you can customize the functions `compare`, `udpdate`, or `getTestUri` of `RobotFileComparator`.
 
 Using the file `flutter_test_config.dart`:
 
