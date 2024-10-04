@@ -15,6 +15,15 @@ It is a good option to create testes to your `page` validating the correct inter
 | ✅    | Simulate status bar   |
 | ✅    | Simulate keyboard open   |
 
+## Installation
+
+Add it to your [`pubspec.yaml`][pubspec]
+as a [dev_dependencies][] by running the following command.
+
+```console
+$ dart pub add dev:flutter_robot
+```
+
 ## Creating your first Robot test
 
 Basically we need create a 2 files `{page_name}_robot.dart` and `{page_name}_test.dart`. When we need mock multi scenarios we will need create a `{page_name}_scenarios.dart`.
