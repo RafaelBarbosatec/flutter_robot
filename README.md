@@ -335,6 +335,63 @@ If you need load a asset diferrent of ImageProvider you can do override of metho
 
 To load assets manually during the test you can call `loadAsyncImageProvider`;
 
+## Golden diff threshold
+
+Is common we work in the OS different than CI. In this cases could get breaked tests by little difference of pixels in your golden test when running in CI.
+
+To try avoid this failures you could set a 'threshold'. The 'threshold' default is 1%, tha is, if the golden test failure with 0.5% of diff your test will pass.
+
+To change this default value you can set it in 'RobotFileComparator':
+
+Using the file `flutter_test_config.dart`.
+
+```dart
+
+import 'dart:async';
+
+import 'package:flutter_robot/flutter_robot.dart';
+
+Future<void> testExecutable(FutureOr<void> Function() testMain) async {
+  RobotFileComparator.thresholdDefault = 0.05; // 5%
+  return testMain();
+}
+
+
+```
+
+You also can setting a specific 'threshold' to a Robot, just pass the param 'goldenThreshold' in your super. This way just in this Robot test will use this 'threshold':
+
+```dart
+
+class ExamplePageRobot extends Robot {
+  ExamplePageRobot({
+    required super.tester,
+    required super.scenario,
+  }):super(goldenThreshold:0.05);
+
+  ...
+}
+
+```
+
+If necessary you can customize the functions 'compare', 'udpdate', or 'getTestUri' of 'RobotFileComparator':
+
+```dart
+
+import 'dart:async';
+
+import 'package:flutter_robot/flutter_robot.dart';
+
+Future<void> testExecutable(FutureOr<void> Function() testMain) async {
+  RobotFileComparator.customGetTestUri = // set here your function
+  RobotFileComparator.customCompare = // set here your function
+  RobotFileComparator.customUpdate = // set here your function
+  return testMain();
+}
+
+
+```
+
 
 ## Golden files of example tests
 

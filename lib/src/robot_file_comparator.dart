@@ -2,7 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 class RobotFileComparator extends LocalFileComparator {
-  static Uri Function(Uri key, int? version)? customgetTestUri;
+  static Uri Function(Uri key, int? version)? customGetTestUri;
   static Future<bool> Function(Uint8List imageBytes, Uri golden)? customCompare;
   static Future<void> Function(Uri golden, Uint8List imageBytes)? customUpdate;
   static double thresholdDefault = 0.01;
@@ -47,7 +47,7 @@ class RobotFileComparator extends LocalFileComparator {
 
   @override
   Uri getTestUri(Uri key, int? version) {
-    return customgetTestUri?.call(key, version) ??
+    return customGetTestUri?.call(key, version) ??
         super.getTestUri(key, version);
   }
 

@@ -1,3 +1,8 @@
+## 0.2.0
+
+* Adds 'RobotFileComparator'
+* Update README
+
 ## 0.1.1
 
 * Load ImageProvider automatically
