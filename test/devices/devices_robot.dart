@@ -10,12 +10,13 @@ class DevicesRobot extends Robot {
     super.device,
     SystemUiOverlayStyle? sytemUi,
   }) : super(
-            scenario: RobotScenario.none(),
-            theme: ThemeData.light().copyWith(
-              appBarTheme: const AppBarTheme().copyWith(
-                systemOverlayStyle: sytemUi,
-              ),
-            ));
+          scenario: RobotScenario.none(),
+          theme: ThemeData.light().copyWith(
+            appBarTheme: const AppBarTheme().copyWith(
+              systemOverlayStyle: sytemUi,
+            ),
+          ),
+        );
 
   @override
   Widget build() {

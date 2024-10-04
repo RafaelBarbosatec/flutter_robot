@@ -10,6 +10,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 
 import 'device/robot_device.dart';
+import 'robot_file_comparator.dart';
 
 export 'device/multi_device_robot.dart';
 export 'device/robot_device.dart';
@@ -34,6 +35,7 @@ abstract class Robot<S extends RobotScenario> {
   final ThemeData? theme;
   final WidgetWrapper? wrapper;
   final Map<String, WidgetBuilder> routes;
+  final double? goldenThreshold;
 
   Widget build();
 
@@ -48,7 +50,11 @@ abstract class Robot<S extends RobotScenario> {
     this.wrapper,
     this.routes = const {},
     this.locale = const Locale('pt', 'BR'),
+    this.goldenThreshold,
   }) {
+    if (goldenThreshold != null) {
+      assert(goldenThreshold! >= 0 && goldenThreshold! <= 1);
+    }
     registerFallbackValue(
       MaterialPageRoute<Widget>(builder: (_) => Container()),
     );
@@ -81,6 +87,8 @@ abstract class Robot<S extends RobotScenario> {
     _applyDevice(deviceSelected);
 
     await RobotFontLoaderManager.instance.load();
+
+    _configFileComparator();
 
     final widgetToTest = DeviceSimulator(
       widget: widget,
@@ -197,12 +205,15 @@ abstract class Robot<S extends RobotScenario> {
     await tester.pumpAndSettle();
   }
 
-  void assertNavigatorRoute(String routeName) {
+  void assertNavigatorRoute(String routeName, {dynamic argumentMatcher}) {
     expect(_currentRouteName, routeName);
+    if (argumentMatcher != null) {
+      expect(_currentRouteArguments, argumentMatcher);
+    }
   }
 
-  void assertNavigatorArguments(dynamic matcher) {
-    expect(_currentRouteArguments, matcher);
+  void assertNavigatorPop({dynamic matcher = 1}) {
+    verify(() => navigatorObserver.didPop(any(), any())).called(matcher);
   }
 
   Map<String, WidgetBuilder> _mapRoutes() {
@@ -219,5 +230,22 @@ abstract class Robot<S extends RobotScenario> {
         );
       },
     );
+  }
+
+  void _configFileComparator() {
+    if (goldenFileComparator is LocalFileComparator) {
+      if (goldenFileComparator is RobotFileComparator) {
+        (goldenFileComparator as RobotFileComparator).threshold =
+            goldenThreshold ?? RobotFileComparator.thresholdDefault;
+        return;
+      }
+
+      final testUrl = (goldenFileComparator as LocalFileComparator).basedir;
+
+      goldenFileComparator = RobotFileComparator(
+        Uri.parse('$testUrl/test. dart'),
+        goldenThreshold ?? RobotFileComparator.thresholdDefault,
+      );
+    }
   }
 }
