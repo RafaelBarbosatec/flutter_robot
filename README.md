@@ -341,9 +341,9 @@ Is common we work in the OS different than CI. In this cases could get breaked t
 
 To try avoid this failures you could set a 'threshold'. The 'threshold' default is 1%, tha is, if the golden test failure with 0.5% of diff your test will pass.
 
-To change this default value you can set it in 'RobotFileComparator':
+To change this default value you can set it in 'RobotFileComparator'.
 
-Using the file `flutter_test_config.dart`.
+Using the file `flutter_test_config.dart`:
 
 ```dart
 
@@ -374,7 +374,9 @@ class ExamplePageRobot extends Robot {
 
 ```
 
-If necessary you can customize the functions 'compare', 'udpdate', or 'getTestUri' of 'RobotFileComparator':
+If necessary you can customize the functions 'compare', 'udpdate', or 'getTestUri' of 'RobotFileComparator'.
+
+Using the file `flutter_test_config.dart`:
 
 ```dart
 
