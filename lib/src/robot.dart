@@ -41,7 +41,7 @@ abstract class Robot<S extends RobotScenario> {
 
   Robot({
     required this.tester,
-    required this.scenario,
+    S? scenario,
     this.localizationDelegate,
     this.device,
     this.onGenerateRoute,
@@ -51,7 +51,7 @@ abstract class Robot<S extends RobotScenario> {
     this.routes = const {},
     this.locale = const Locale('pt', 'BR'),
     this.goldenThreshold,
-  }) {
+  }) : scenario = scenario ?? RobotScenario.none() as S {
     if (goldenThreshold != null) {
       assert(goldenThreshold! >= 0 && goldenThreshold! <= 1);
     }

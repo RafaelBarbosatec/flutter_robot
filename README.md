@@ -52,9 +52,7 @@ In this first example will not use scenarios. So, we setted fixed scenario to 'R
 class MyFeaturePageRobot extends Robot {
   DevicesRobot({
     required super.tester,
-  }) : super(
-          scenario: RobotScenario.none(),
-        );
+  });
 
   @override
   Widget build() {

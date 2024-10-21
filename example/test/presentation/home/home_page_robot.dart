@@ -5,7 +5,10 @@ import 'package:flutter_robot_example/src/presentation/home/home_page.dart';
 import 'home_page_scenarios.dart';
 
 class HomePageRobot extends Robot<HomePageScenarios> {
-  HomePageRobot({required super.tester, required super.scenario});
+  HomePageRobot({
+    required super.tester,
+    required super.scenario,
+  });
 
   @override
   Widget build() {

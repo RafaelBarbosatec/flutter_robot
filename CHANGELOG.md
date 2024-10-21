@@ -1,3 +1,7 @@
+## 0.2.1
+
+* removes mandatory 'scenario' param.
+
 ## 0.2.0
 
 * Adds 'RobotFileComparator'
