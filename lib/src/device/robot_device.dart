@@ -73,6 +73,7 @@ class RobotDevice {
 class DeviceSimulator extends StatelessWidget {
   final Widget widget;
   final RobotDevice device;
+  final ThemeData theme;
   static const iosHomeButonHeight = 34.0;
   static const statusBarHeight = 24.0;
   static const keyboardHeight = 282.0;
@@ -81,12 +82,13 @@ class DeviceSimulator extends StatelessWidget {
     super.key,
     required this.widget,
     required this.device,
+    required this.theme,
   });
 
   @override
   Widget build(BuildContext context) {
     final mediaquery = MediaQuery.of(context);
-    final theme = Theme.of(context);
+    
     return Stack(
       children: [
         MediaQuery(

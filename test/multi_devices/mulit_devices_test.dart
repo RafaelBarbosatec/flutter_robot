@@ -17,6 +17,7 @@ void main() {
           name: 'custom',
           sizeScreen: const Size(800, 800),
           withStatusBar: true,
+          withIOSHomeButton: true,
         ),
       ],
       test: (robot, device) async {

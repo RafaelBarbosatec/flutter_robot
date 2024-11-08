@@ -62,9 +62,17 @@ abstract class Robot<S extends RobotScenario> {
   }
 
   Future<void> setup() async {
-    await scenario.injectDependencies();
-    await scenario.mockScenario();
+    await injectDependencies();
+    await mockScenario();
     await _widgetSetup(build());
+  }
+
+  Future<void> injectDependencies() async {
+    await scenario.injectDependencies();
+  }
+
+  Future<void> mockScenario() async {
+    await scenario.mockScenario();
   }
 
   void setDevice(RobotDevice device) {
@@ -90,40 +98,48 @@ abstract class Robot<S extends RobotScenario> {
 
     _configFileComparator();
 
-    final widgetToTest = DeviceSimulator(
-      widget: widget,
-      device: deviceSelected,
-    );
+    final themeToUse = theme ?? ThemeData.light();
 
     await tester.pumpWidget(
       DefaultAssetBundle(
         bundle: TestAssetBundle(),
-        child: wrapper?.call(widgetToTest) ??
-            MaterialApp(
-              debugShowCheckedModeBanner: false,
-              theme: theme,
-              navigatorObservers: [
-                navigatorObserver,
-                ...navigatorObservers,
-              ],
-              localizationsDelegates: [
-                if (localizationDelegate != null) ...localizationDelegate!,
-                GlobalMaterialLocalizations.delegate,
-                GlobalWidgetsLocalizations.delegate,
-                GlobalCupertinoLocalizations.delegate,
-              ],
-              locale: locale,
-              supportedLocales: [locale],
-              routes: {
-                '/': (_) => widgetToTest,
-                ..._mapRoutes(),
-              },
-              onGenerateRoute: (settings) {
-                _currentRouteName = settings.name ?? '';
-                _currentRouteArguments = settings.arguments;
-                return onGenerateRoute?.call(settings);
-              },
+        child: Directionality(
+          textDirection: TextDirection.ltr,
+          child: MediaQuery(
+            data: const MediaQueryData(),
+            child: DeviceSimulator(
+              device: deviceSelected,
+              theme: themeToUse,
+              widget: wrapper?.call(widget) ??
+                  MaterialApp(
+                    debugShowCheckedModeBanner: false,
+                    theme: themeToUse,
+                    navigatorObservers: [
+                      navigatorObserver,
+                      ...navigatorObservers,
+                    ],
+                    localizationsDelegates: [
+                      if (localizationDelegate != null)
+                        ...localizationDelegate!,
+                      GlobalMaterialLocalizations.delegate,
+                      GlobalWidgetsLocalizations.delegate,
+                      GlobalCupertinoLocalizations.delegate,
+                    ],
+                    locale: locale,
+                    supportedLocales: [locale],
+                    routes: {
+                      '/': (_) => widget,
+                      ...routes,
+                    },
+                    onGenerateRoute: (settings) {
+                      _currentRouteName = settings.name ?? '';
+                      _currentRouteArguments = settings.arguments;
+                      return onGenerateRoute?.call(settings);
+                    },
+                  ),
             ),
+          ),
+        ),
       ),
     );
 
@@ -214,22 +230,6 @@ abstract class Robot<S extends RobotScenario> {
 
   void assertNavigatorPop({dynamic matcher = 1}) {
     verify(() => navigatorObserver.didPop(any(), any())).called(matcher);
-  }
-
-  Map<String, WidgetBuilder> _mapRoutes() {
-    return routes.map(
-      (key, value) {
-        return MapEntry(
-          key,
-          (BuildContext context) {
-            return DeviceSimulator(
-              widget: value(context),
-              device: _device ?? RobotDevice.medium(),
-            );
-          },
-        );
-      },
-    );
   }
 
   void _configFileComparator() {
