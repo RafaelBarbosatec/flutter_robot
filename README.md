@@ -82,11 +82,14 @@ import 'package:flutter_test/flutter_test.dart';
 import 'my_feature_page_robot.dart';
 
 void main() {
-  testWidgets(
+
+  setUpRobot(
+    (tester) => MyFeaturePageRobot(tester: tester),
+  );
+
+  testRobot<MyFeaturePageRobot>(
     'Should show page correctly',
-    (tester) async {
-      final robot = MyFeaturePageRobot(tester: tester);
-      await robot.setup();
+    (robot) async {
       await robot.assertScreen();
     },
   );
@@ -196,7 +199,6 @@ class ExamplePageSuccess extends ExamplePageScenarios {
 class ExamplePageRobot extends Robot<ExamplePageScenarios> {
   ExamplePageRobot({
     required super.tester,
-    required super.scenario,
   });
 
   @override
@@ -239,14 +241,20 @@ import 'example_page_robot.dart';
 import 'example_page_scenarios.dart';
 
 void main() {
-  testWidgets('Should show the success case correctly', (tester) async {
-    final robot = ExamplePageRobot(
+
+  setUpRobot(
+    (tester) => ExamplePageRobot(
       tester: tester,
-      scenario: ExamplePageSuccess(),
-    );
-    await robot.configure();
-    await robot.assertSuccessScreenGolden();
-  });
+    ),
+  );
+
+  testRobot<ExamplePageRobot>(
+    'Should show the success case correctly',
+    (robot) async {
+      await robot.assertSuccessScreenGolden();
+    },
+    scenario: ExamplePageSuccess(),
+  );
 }
 
 ```
@@ -255,15 +263,24 @@ That is it. Now just run command to create a golden files if you using the golde
 
 ## Runing test in multi devices
 
-To run your `Robot` test in multi devices simulating `statusBar`,`Keyboard opened` or `ios home button` you can use `MultiDeviceRobot`.
+To run your `Robot` test in multi devices simulating `statusBar`,`Keyboard opened` or `ios home button` you can pass the `devices` param in `testRobot` method.
 
 ```dart
 
 void main() {
-  testWidgets('Should run in all devices', (tester) async {
-    await MultiDeviceRobot<MyFeaturePageRobot>(
-      robot: MyFeaturePageRobot(tester: tester),
-      devices: [
+
+  setUpRobot(
+    (tester) => ExamplePageRobot(
+      tester: tester,
+    ),
+  );
+
+  testRobot<ExamplePageRobot>(
+    'Should run in all devices',
+    (robot) async {
+      await robot.assertScreen();
+    },
+    devices: [
         RobotDevice.small(),
         RobotDevice.medium(),
         RobotDevice.large(),
@@ -275,12 +292,7 @@ void main() {
           withIOSHomeButton: true,
         ),
       ],
-      test: (robot, device) async {
-        await robot.setup();
-        await robot.assertScreen();
-      },
-    ).run();
-  });
+  );
 }
 
 ```
