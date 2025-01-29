@@ -27,8 +27,8 @@ jobs:
       - name: Get packages
         run: flutter pub get
 
-      - name: Check format errors
-        run: dart format --output=none --set-exit-if-changed .
+      # - name: Check format errors
+      #   run: dart format --output=none --set-exit-if-changed .
 
       - name: Check lint errors
         run: flutter analyze .

@@ -165,7 +165,11 @@ abstract class Robot<S extends RobotScenario> {
                     onGenerateRoute: (settings) {
                       _currentRouteName = settings.name ?? '';
                       _currentRouteArguments = settings.arguments;
-                      return onGenerateRoute?.call(settings);
+                      return onGenerateRoute?.call(settings) ??
+                          MaterialPageRoute<Widget>(
+                            builder: (_) => Container(),
+                            settings: settings,
+                          );
                     },
                   ),
             ),

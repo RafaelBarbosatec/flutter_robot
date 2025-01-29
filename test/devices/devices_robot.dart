@@ -17,13 +17,15 @@ class DevicesRobot extends Robot {
           ),
         );
 
+  RobotElement get secondaryButton => RobotElement.byText('Secondary', tester);
+
   @override
   Widget build() {
     return const WidgetTestDefault();
   }
 
-  Future<void> tapSecondary() {
-    return tapByText('Secondary');
+  void assertNavigateToSecondPage() {
+    assertNavigatorRoute(WidgetTestDefault.secondRoute);
   }
 
   Future<void> assertMediumDeviceStatusBarIOSHomeButton() {

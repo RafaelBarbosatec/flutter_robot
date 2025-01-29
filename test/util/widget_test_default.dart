@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 class WidgetTestDefault extends StatelessWidget {
+  static const secondRoute = '/secondPage';
   const WidgetTestDefault({super.key});
 
   @override
@@ -31,7 +32,7 @@ class WidgetTestDefault extends StatelessWidget {
             ),
             ElevatedButton(
               onPressed: () {
-                Navigator.of(context).pushNamed('/t');
+                Navigator.of(context).pushNamed(secondRoute);
               },
               child: const Text('Secondary'),
             ),

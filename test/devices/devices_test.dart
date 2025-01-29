@@ -55,4 +55,17 @@ void main() {
       await robot.assertMediumDeviceStatusBarDark();
     },
   );
+
+  testWidgets(
+    'Should navigate to secondary page',
+    (tester) async {
+      final robot = DevicesRobot(
+        tester: tester,
+        sytemUi: SystemUiOverlayStyle.dark,
+      );
+      await robot.setup();
+      await robot.secondaryButton.tap();
+      robot.assertNavigateToSecondPage();
+    },
+  );
 }
