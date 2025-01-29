@@ -45,11 +45,12 @@ abstract class Robot<S extends RobotScenario> {
   final double? goldenThreshold;
 
   List<RobotFontLoader> get fontLoaders => [];
-
   final List<RobotFontLoader> _fontLoadersDefault = [
     MaterialIconsFontLoader(),
     PubspecFontLoader(),
   ];
+
+  List<ImageProvider> get assets => [];
 
   Widget build();
 
@@ -80,6 +81,7 @@ abstract class Robot<S extends RobotScenario> {
     await injectDependencies();
     await mockScenario();
     await loadFonts();
+    _configFileComparator();
     await _widgetSetup(build());
   }
 
@@ -108,6 +110,12 @@ abstract class Robot<S extends RobotScenario> {
 
   Future<void> onLoadAssets() async {
     await AssetsLoader.defaultPrimeAssets(tester);
+    if (assets.isNotEmpty) {
+      Element element = tester.element(find.byType(MaterialApp));
+      for (var asset in assets) {
+        await precacheImage(asset, element);
+      }
+    }
     await tester.pump();
   }
 
@@ -120,8 +128,6 @@ abstract class Robot<S extends RobotScenario> {
   Future<void> _widgetSetup(Widget widget) async {
     final deviceSelected = _device ?? device ?? RobotDevice.medium();
     _applyDevice(deviceSelected);
-
-    _configFileComparator();
 
     final themeToUse = theme ?? ThemeData.light();
 
@@ -194,28 +200,34 @@ abstract class Robot<S extends RobotScenario> {
     );
   }
 
+  @Deprecated("Use RobotElement")
   Future<void> tap(FinderBase<Element> finder) async {
     await tester.tap(finder);
     await tester.pumpAndSettle();
   }
 
+  @Deprecated("Use RobotElement")
   Future<void> tapByKey(Key key) {
     return tap(find.byKey(key));
   }
 
+  @Deprecated("Use RobotElement")
   Future<void> tapByText(String text) {
     return tap(find.text(text));
   }
 
+  @Deprecated("Use RobotElement")
   Future<void> enterText(FinderBase<Element> finder, String text) async {
     await tester.enterText(finder, text);
     await tester.pumpAndSettle();
   }
 
+  @Deprecated("Use RobotElement")
   Future<void> enterTextByKey(Key key, String text) {
     return enterText(find.byKey(key), text);
   }
 
+  @Deprecated("Use RobotElement")
   Future<void> pumpUntilFound(
     WidgetTester tester,
     Finder finder, {

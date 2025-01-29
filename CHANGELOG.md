@@ -1,3 +1,8 @@
+# Next
+
+* Deprecate some method to use RobotElement.
+* Adds get `List<ImageProvider> get assets` in Robot to pre-load some assets if necessary.
+
 ## 0.3.0
 
 * Adds robot_tester.

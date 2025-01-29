@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -61,14 +63,6 @@ class RobotElement {
     await _awaitForAnimations();
   }
 
-  Future<void> _awaitForAnimations() async {
-    try {
-      await tester.pumpAndSettle();
-    } catch (e) {
-      await tester.pump();
-    }
-  }
-
   Future<void> longPress() async {
     await tester.longPress(finder);
     await _awaitForAnimations();
@@ -77,5 +71,29 @@ class RobotElement {
   String? get text {
     final widget = tester.widget<Text>(finder);
     return widget.data;
+  }
+
+  Future<void> waitUntilVisible({
+    Duration timeout = const Duration(seconds: 10),
+  }) async {
+    bool timerDone = false;
+    final timer = Timer(timeout, () => timerDone = true);
+    while (timerDone != true) {
+      await tester.pump();
+
+      final found = tester.any(finder);
+      if (found) {
+        timerDone = true;
+      }
+    }
+    timer.cancel();
+  }
+
+  Future<void> _awaitForAnimations() async {
+    try {
+      await tester.pumpAndSettle();
+    } catch (e) {
+      await tester.pump();
+    }
   }
 }
