@@ -1,7 +1,8 @@
-# Next
+## 0.3.1
 
 * Deprecate some method to use RobotElement.
 * Adds get `List<ImageProvider> get assets` in Robot to pre-load some assets if necessary.
+* Fix `element.waitUntilVisible`.
 
 ## 0.3.0
 
