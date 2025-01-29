@@ -1,3 +1,7 @@
+## NEXT
+
+* Adds robot_tester.
+
 ## 0.2.2
 
 * `DeviceSimulator` improvements.

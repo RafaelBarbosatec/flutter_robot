@@ -289,27 +289,9 @@ void main() {
 ## Loading fonts
 
 To load fonts to show the text and icons in your golden files you can use the `RobotFontLoaderManager`.
+By default the robot will load the material icons and the fonts defined in your `pubspec.yml`. (`MaterialIconsFontLoader` and `PubspecFontLoader`)
 
-Create a file in your `test` folder named `flutter_test_config.dart`.
-
-```dart
-
-import 'dart:async';
-
-import 'package:flutter_robot/flutter_robot.dart';
-
-Future<void> testExecutable(FutureOr<void> Function() testMain) async {
-  // This load the material icons.
-  RobotFontLoaderManager().add(MaterialIconsFontLoader());
-  // This load the fonts definned in your pubspec.yml
-  RobotFontLoaderManager().add(PubspecFontLoader());
-  return testMain();
-}
-
-
-```
-
-If is need you can create your custom FontLoader. Just create a class and extends by `RobotFontLoader`.
+If you need load a font different of the default you can create a custom `RobotFontLoader` and add in the `RobotFontLoaderManager`. Like this:
 
 ```dart
 
@@ -326,11 +308,37 @@ class MyCustomIconFontLoader extends RobotFontLoader{
 
 ```
 
-Now adds in the `RobotFontLoaderManager`.
+Create a file in your `test` folder named `flutter_test_config.dart`.
 
 ```dart
 
-RobotFontLoaderManager().add(MyCustomIconFontLoader());
+import 'dart:async';
+
+import 'package:flutter_robot/flutter_robot.dart';
+
+Future<void> testExecutable(FutureOr<void> Function() testMain) async {
+  RobotFontLoaderManager().add(MyCustomIconFontLoader());
+  return testMain();
+}
+
+
+```
+
+Or just override the method `fontLoaders` in your `Robot` class.
+
+```dart
+
+import 'dart:async';
+
+import 'package:flutter_robot/flutter_robot.dart';
+
+class MyRobot extends Robot {
+  
+  List<RobotFontLoader> get fontLoaders => [
+    MyCustomIconFontLoader(),
+  ];
+
+}
 
 ```
 
