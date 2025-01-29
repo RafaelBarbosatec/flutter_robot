@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -76,17 +74,24 @@ class RobotElement {
   Future<void> waitUntilVisible({
     Duration timeout = const Duration(seconds: 10),
   }) async {
-    bool timerDone = false;
-    final timer = Timer(timeout, () => timerDone = true);
-    while (timerDone != true) {
+    bool foundElement = false;
+    int counter = 0;
+    int maxCounter = timeout.inMilliseconds ~/ 100;
+
+    while (!foundElement && counter < maxCounter) {
       await tester.pump();
 
-      final found = tester.any(finder);
-      if (found) {
-        timerDone = true;
-      }
+      foundElement = tester.any(finder);
+
+      await tester.runAsync(() async {
+        await Future.delayed(const Duration(milliseconds: 100));
+      });
+      counter++;
     }
-    timer.cancel();
+
+    if (!foundElement) {
+      throw Exception('waitUntilVisible timeout -> $finder');
+    }
   }
 
   Future<void> _awaitForAnimations() async {
