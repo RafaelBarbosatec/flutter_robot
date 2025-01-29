@@ -7,7 +7,6 @@ import 'home_page_scenarios.dart';
 class HomePageRobot extends Robot<HomePageScenarios> {
   HomePageRobot({
     required super.tester,
-    required super.scenario,
   });
 
   @override

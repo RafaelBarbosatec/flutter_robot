@@ -13,8 +13,7 @@ abstract class RobotFontLoader {
 }
 
 class RobotFontLoaderManager {
-  static final RobotFontLoaderManager instance =
-      RobotFontLoaderManager._internal();
+  static final RobotFontLoaderManager instance = RobotFontLoaderManager._internal();
 
   factory RobotFontLoaderManager() {
     return instance;
@@ -23,12 +22,24 @@ class RobotFontLoaderManager {
   RobotFontLoaderManager._internal();
   final List<RobotFontLoader> _loaders = [];
 
-  void add(RobotFontLoader loader) => _loaders.add(loader);
-  void addAll(List<RobotFontLoader> loaders) => _loaders.addAll(loaders);
+  bool get isEmpty => _loaders.isEmpty;
+
+  void add(RobotFontLoader loader) {
+    final contains = _loaders.any((element) => element.runtimeType == loader.runtimeType);
+    if (!contains) {
+      _loaders.add(loader);
+    }
+  }
+
+  void addAll(List<RobotFontLoader> loaders) {
+    loaders.forEach(add);
+  }
+
   void clean() => _loaders.clear();
 
   Future<void> load() async {
     TestWidgetsFlutterBinding.ensureInitialized();
+
     for (var loader in _loaders) {
       if (!loader.loaded) {
         await loader.load();

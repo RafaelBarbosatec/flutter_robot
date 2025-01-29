@@ -24,7 +24,14 @@ abstract class Robot<S extends RobotScenario> {
   Object? _currentRouteArguments;
   final WidgetTester tester;
   late NavigatorObserver navigatorObserver;
-  final S scenario;
+  S? _scenario;
+  S get scenario {
+    if (_scenario == null) {
+      throw Exception('Scenario is not set');
+    }
+    return _scenario!;
+  }
+
   RobotDevice? _device;
 
   final List<LocalizationsDelegate>? localizationDelegate;
@@ -36,6 +43,13 @@ abstract class Robot<S extends RobotScenario> {
   final WidgetWrapper? wrapper;
   final Map<String, WidgetBuilder> routes;
   final double? goldenThreshold;
+
+  List<RobotFontLoader> get fontLoaders => [];
+
+  final List<RobotFontLoader> _fontLoadersDefault = [
+    MaterialIconsFontLoader(),
+    PubspecFontLoader(),
+  ];
 
   Widget build();
 
@@ -51,7 +65,7 @@ abstract class Robot<S extends RobotScenario> {
     this.routes = const {},
     this.locale = const Locale('pt', 'BR'),
     this.goldenThreshold,
-  }) : scenario = scenario ?? RobotScenario.none() as S {
+  }) : _scenario = scenario {
     if (goldenThreshold != null) {
       assert(goldenThreshold! >= 0 && goldenThreshold! <= 1);
     }
@@ -61,18 +75,31 @@ abstract class Robot<S extends RobotScenario> {
     navigatorObserver = NavigatorObserverMock();
   }
 
-  Future<void> setup() async {
+  Future<void> setup({S? scenario}) async {
+    _scenario = scenario ?? _scenario;
     await injectDependencies();
     await mockScenario();
+    await loadFonts();
     await _widgetSetup(build());
   }
 
   Future<void> injectDependencies() async {
-    await scenario.injectDependencies();
+    await _scenario?.injectDependencies();
   }
 
   Future<void> mockScenario() async {
-    await scenario.mockScenario();
+    await _scenario?.mockScenario();
+  }
+
+  Future<void> loadFonts() async {
+    RobotFontLoaderManager.instance.addAll(
+      [
+        ..._fontLoadersDefault,
+        ...fontLoaders,
+      ],
+    );
+
+    await RobotFontLoaderManager.instance.load();
   }
 
   void setDevice(RobotDevice device) {
@@ -93,8 +120,6 @@ abstract class Robot<S extends RobotScenario> {
   Future<void> _widgetSetup(Widget widget) async {
     final deviceSelected = _device ?? device ?? RobotDevice.medium();
     _applyDevice(deviceSelected);
-
-    await RobotFontLoaderManager.instance.load();
 
     _configFileComparator();
 
@@ -119,8 +144,7 @@ abstract class Robot<S extends RobotScenario> {
                       ...navigatorObservers,
                     ],
                     localizationsDelegates: [
-                      if (localizationDelegate != null)
-                        ...localizationDelegate!,
+                      if (localizationDelegate != null) ...localizationDelegate!,
                       GlobalMaterialLocalizations.delegate,
                       GlobalWidgetsLocalizations.delegate,
                       GlobalCupertinoLocalizations.delegate,
