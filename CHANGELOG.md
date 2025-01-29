@@ -1,6 +1,7 @@
-## NEXT
+## 0.3.0
 
 * Adds robot_tester.
+* Adds RobotElement.
 
 ## 0.2.2
 
