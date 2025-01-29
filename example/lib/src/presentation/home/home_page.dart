@@ -7,6 +7,8 @@ import 'package:flutter_robot_example/src/presentation/home/controller/home_cont
 import 'package:flutter_robot_example/src/presentation/home/controller/home_state.dart';
 import 'package:flutter_robot_example/src/presentation/home/weather_img_mapper.dart';
 
+// ignore_for_file: deprecated_member_use
+
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
@@ -59,9 +61,8 @@ class _Content extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Brightness textBrightess = (weather.condition.isCLoudy && weather.isDay)
-        ? Brightness.light
-        : Brightness.dark;
+    Brightness textBrightess =
+        (weather.condition.isCLoudy && weather.isDay) ? Brightness.light : Brightness.dark;
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
