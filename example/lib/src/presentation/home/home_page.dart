@@ -61,8 +61,9 @@ class _Content extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Brightness textBrightess =
-        (weather.condition.isCLoudy && weather.isDay) ? Brightness.light : Brightness.dark;
+    Brightness textBrightess = (weather.condition.isCLoudy && weather.isDay)
+        ? Brightness.light
+        : Brightness.dark;
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(

@@ -144,7 +144,8 @@ abstract class Robot<S extends RobotScenario> {
                       ...navigatorObservers,
                     ],
                     localizationsDelegates: [
-                      if (localizationDelegate != null) ...localizationDelegate!,
+                      if (localizationDelegate != null)
+                        ...localizationDelegate!,
                       GlobalMaterialLocalizations.delegate,
                       GlobalWidgetsLocalizations.delegate,
                       GlobalCupertinoLocalizations.delegate,

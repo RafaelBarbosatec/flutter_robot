@@ -8,7 +8,8 @@ import 'robot.dart';
 
 Robot Function(WidgetTester)? _blocBuilder;
 
-void setUpRobot<T extends RobotScenario>(Robot<T> Function(WidgetTester) callback) {
+void setUpRobot<T extends RobotScenario>(
+    Robot<T> Function(WidgetTester) callback) {
   _blocBuilder = callback;
 }
 

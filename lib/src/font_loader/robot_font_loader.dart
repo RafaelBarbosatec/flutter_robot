@@ -13,7 +13,8 @@ abstract class RobotFontLoader {
 }
 
 class RobotFontLoaderManager {
-  static final RobotFontLoaderManager instance = RobotFontLoaderManager._internal();
+  static final RobotFontLoaderManager instance =
+      RobotFontLoaderManager._internal();
 
   factory RobotFontLoaderManager() {
     return instance;
@@ -25,7 +26,8 @@ class RobotFontLoaderManager {
   bool get isEmpty => _loaders.isEmpty;
 
   void add(RobotFontLoader loader) {
-    final contains = _loaders.any((element) => element.runtimeType == loader.runtimeType);
+    final contains =
+        _loaders.any((element) => element.runtimeType == loader.runtimeType);
     if (!contains) {
       _loaders.add(loader);
     }

@@ -88,7 +88,7 @@ class DeviceSimulator extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final mediaquery = MediaQuery.of(context);
-    
+
     return Stack(
       children: [
         MediaQuery(

@@ -301,7 +301,7 @@ void main() {
 
 ## Using RobotElement
 
-The `RobotElement` is a widget that help you to find a widget in the widget tree and interact with it.
+The `RobotElement` is a class that help you to find a widget in the widget tree and interact with it.
 
 Here's an example of how to use `RobotElement` in your tests:
 
