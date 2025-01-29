@@ -26,7 +26,7 @@ class RobotElement {
   }
 
   bool isVisible() {
-    return tester.widgetList(finder).isNotEmpty;
+    return tester.any(finder);
   }
 
   void assertIsVisible() {
