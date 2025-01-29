@@ -65,6 +65,7 @@ class MyFeaturePageRobot extends Robot {
   }
 
   // Create here others methods to interact with 'WidgetTester' API like a `tap`, `enterText`, etc.
+  // Or use RobotElement to find a widget and interact with it.
 
 }
 
@@ -295,6 +296,61 @@ void main() {
   );
 }
 
+```
+
+
+## Using RobotElement
+
+The `RobotElement` is a widget that help you to find a widget in the widget tree and interact with it.
+
+Here's an example of how to use `RobotElement` in your tests:
+
+
+```dart
+class MyFeaturePageRobot extends Robot {
+  MyFeaturePageRobot({
+    required super.tester,
+  });
+
+  @override
+  Widget build() {
+    return const MyFeaturePage();
+  }
+
+  // Get a specific element by key
+  RobotElement get submitButton => RobotElement.byKey(Key('submit_button'), tester);
+
+  // Get an element by type
+  RobotElement get textField => RobotElement.byType(TextField, tester);
+
+  // Get an element by text
+  RobotElement get welcomeText => RobotElement.byText('Welcome!', tester);
+
+  // Get an element by icon
+  RobotElement get settingsIcon => RobotElement.byIcon(Icons.settings, tester);
+
+}
+```
+
+Using in test:
+
+```dart
+void main() {
+  setUpRobot(
+    (tester) => MyFeaturePageRobot(tester: tester),
+  );
+
+  testRobot<MyFeaturePageRobot>(
+    'Should interact with the elements',
+    (robot) async {
+      await robot.submitButton.scrollTo();
+      await robot.submitButton.tap();
+      await robot.welcomeText.assertIsVisible();
+      await robot.settingsIcon.longPress();
+      await robot.textField.enterText('Test input');
+    },
+  );
+}
 ```
 
 
