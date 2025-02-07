@@ -6,11 +6,12 @@ import 'package:test_api/scaffolding.dart' as test_package;
 
 import 'robot.dart';
 
-Robot Function(WidgetTester)? _blocBuilder;
+Map<String, Robot Function(WidgetTester)> _blocBuilder = {};
 
-void setUpRobot<T extends RobotScenario>(
-    Robot<T> Function(WidgetTester) callback) {
-  _blocBuilder = callback;
+void setUpRobot<R extends Robot>(
+  R Function(WidgetTester) callback,
+) {
+  _blocBuilder[R.toString()] = callback;
 }
 
 /// A test helper that makes it easy to write widget tests with robots.
@@ -82,16 +83,14 @@ void testRobot<R extends Robot>(
   testWidgets(
     description,
     (tester) async {
-      if (_blocBuilder == null) {
-        throw Exception('Robot not initialized, pls call setupRobot first');
-      }
       if (devices.isEmpty) {
-        final robot = _blocBuilder!(tester) as R;
+        final robot = _blocBuilder[R.toString()]!(tester) as R;
         await robot.setup(scenario: scenario);
         await body(robot);
+        return;
       }
       await MultiDeviceRobot<R>(
-        robot: _blocBuilder!(tester) as R,
+        robot: _blocBuilder[R.toString()]!(tester) as R,
         devices: devices,
         test: (robot, device) async {
           await robot.setup(scenario: scenario);

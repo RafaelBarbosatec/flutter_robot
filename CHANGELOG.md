@@ -1,3 +1,7 @@
+## 0.3.3
+
+* Enhancements to testRobot support test execution with parallelism.
+
 ## 0.3.2
 
 * Robot improvements
