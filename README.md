@@ -143,7 +143,6 @@ After then lets implements a base of your robot file.
 class ExamplePageRobot extends Robot<ExamplePageScenarios> {
   ExamplePageRobot({
     required super.tester,
-    required super.scenario,
   });
 
   @override
