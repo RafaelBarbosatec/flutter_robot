@@ -64,9 +64,7 @@ class RobotDevice {
       return false;
     }
     RobotDevice o = other;
-    return o.sizeScreen == sizeScreen &&
-        o.pixelRatio == pixelRatio &&
-        o.textScale == textScale;
+    return o.sizeScreen == sizeScreen && o.pixelRatio == pixelRatio && o.textScale == textScale;
   }
 }
 
@@ -163,9 +161,7 @@ class StatusBarState extends State<_StatusBar> {
   SystemUiOverlayStyle? _getSystemOverlayStyle() {
     try {
       final appBar = find.byType(AnnotatedRegion<SystemUiOverlayStyle>);
-      return (appBar.evaluate().single.widget
-              as AnnotatedRegion<SystemUiOverlayStyle>)
-          .value;
+      return (appBar.evaluate().single.widget as AnnotatedRegion<SystemUiOverlayStyle>).value;
     } catch (e) {
       return null;
     }
@@ -235,9 +231,9 @@ class StatusBarState extends State<_StatusBar> {
     }
     switch (statusBarBrightness ?? Brightness.dark) {
       case Brightness.dark:
-        return const Color(0xFF000000).withOpacity(0.4);
+        return const Color(0x66000000);
       case Brightness.light:
-        return const Color(0xFFFFFFFF).withOpacity(0.4);
+        return const Color(0x66FFFFFF);
     }
   }
 
