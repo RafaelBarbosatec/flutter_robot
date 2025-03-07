@@ -4,9 +4,9 @@
 
 # Flutter Robot 🤖📱
 
-Create a widget testes using the Robot Pattern!
+Create widget tests using the Robot Pattern!
 
-It is a good option to create testes to your `page` validating the correct interaction between (controller) <-> (widget). This way you can validate if your view show/do exactly you expected in each state of controller(cubit/bloc/mobx/etc).
+This package provides a good approach to create tests for your `pages` by validating the correct interaction between controller and widget. This way you can verify if your view shows/behaves exactly as expected for each controller state (cubit/bloc/mobx/etc).
 
 | Progress | Feature |
 |----------|----------|
@@ -17,33 +17,33 @@ It is a good option to create testes to your `page` validating the correct inter
 
 ## Installation
 
-Add it to your `pubspec.yaml`
-as a `dev_dependencies` by running the following command.
+Add it to your `pubspec.yaml` as a `dev_dependency`:
 
 ```console
-$ dart pub add dev:flutter_robot
+dart pub add dev:flutter_robot
 ```
 
 ## Creating your first Robot test
 
-Basically we need create a 2 files `{page_name}_robot.dart` and `{page_name}_test.dart`. When we need mock multi scenarios we will need create a `{page_name}_scenarios.dart`.
+To implement the Robot Pattern, you'll need to create 2-3 files:
+- `{page_name}_robot.dart` - Contains the robot implementation
+- `{page_name}_test.dart` - Contains the actual tests
+- `{page_name}_scenarios.dart` - (Optional) Used when you need to mock multiple scenarios
 
+Typical folder structure:
 ```
-my_project
-│      
-└───lib
-│   ...
-└───test
-    │
-    └───feature
-        │   feature_robot.dart
-        │   feature_scenarios.dart
-        │   feature_test.dart
+my_project/
+└── lib/
+└── test/
+    └── feature/
+        ├── feature_robot.dart
+        ├── feature_scenarios.dart
+        └── feature_test.dart
 ```
 
 #### First step - Creating a robot
 
-In this first example will not use scenarios. So, we setted fixed scenario to 'RobotScenario.none()'.
+In this first example, we will not use scenarios. So, we set a fixed scenario to 'RobotScenario.none()'.
 
 `my_feature_page_robot.dart`
 
@@ -99,22 +99,22 @@ void main() {
 
 ### Creating a golden files
 
-Now just run the command `flutter test --update-goldens`. If averything is ok your test will pass and create a folder named `golden_files` and inside that the file `MyFeaturePage_screen.png`.
+Now just run the command `flutter test --update-goldens`. If everything is ok, your test will pass and create a folder named `golden_files` and inside that the file `MyFeaturePage_screen.png`.
 
 Ready! When you run `flutter test` your test will validate the golden test.
 
 ## Creating test using scenarios
 
-First of all, What is `scenarios` here?
-`Scenarios` is a group of mocks that help you to arrive in especific state of your controller to validate it.
+First of all, what are `scenarios` here?
+`Scenarios` are a group of mocks that help you to arrive in a specific state of your controller to validate it.
 
-In this kind of test we don't do mock the controller, we mock the controller dependencies.
+In this kind of test, we don't mock the controller, we mock the controller dependencies.
 
 The idea here is testing the controller and the view.
 
 So, let's keep going!
 
-The first step is create a `scenarios` file. Just create a class and extending of `RobotScenario`:
+The first step is to create a `scenarios` file. Just create a class and extend `RobotScenario`:
 
 
 `example_page_scenarios.dart`
@@ -132,9 +132,9 @@ abstract class ExamplePageScenarios extends RobotScenario{
 
 ```
 
-We not go do anything here in the moment. But you already can know that in `injectDependencies` method you will insert the code of inject the page dependencies and the `mockScenario` method you will insert the code of do mock of dependencies.
+We are not going to do anything here at the moment. But you already know that in the `injectDependencies` method you will insert the code to inject the page dependencies and in the `mockScenario` method you will insert the code to mock the dependencies.
 
-After then lets implements a base of your robot file.
+After that, let's implement the base of your robot file.
 
 `example_page_robot.dart`
 
@@ -153,9 +153,9 @@ class ExamplePageRobot extends Robot<ExamplePageScenarios> {
 
 ```
 
-Great, you have da base! Now just adds your interactions and validations.
+Great, you have the base! Now just add your interactions and validations.
 
-Lets go create a test with golden validation to success scenario:
+Let's create a test with golden validation for the success scenario:
 
 1. Create a success scenario in `example_page_scenarios.dart`:
 
@@ -167,14 +167,14 @@ abstract class ExamplePageScenarios extends RobotScenario {
   late GetExampleInfoUsecase usecase;
   late ExampleCubit cubit;
 
-  ExamplePageScenarions() {
+  ExamplePageScenarios() {
     usecase = GetExampleInfoUsecaseMock();
     cubit = ExampleCubit(usecase: usecase);
   }
 
   @override
   FutureOr<void> injectDependencies() {
-    servideLocator.registerFactory(() => cubit);
+    serviceLocator.registerFactory(() => cubit);
   }
 
   @override
@@ -259,11 +259,11 @@ void main() {
 
 ```
 
-That is it. Now just run command to create a golden files if you using the golden test.
+That is it. Now just run the command to create the golden files if you are using the golden test.
 
-## Runing test in multi devices
+## Running test in multi devices
 
-To run your `Robot` test in multi devices simulating `statusBar`,`Keyboard opened` or `ios home button` you can pass the `devices` param in `testRobot` method.
+To run your `Robot` test in multiple devices simulating `statusBar`, `Keyboard opened`, or `ios home button` you can pass the `devices` param in the `testRobot` method.
 
 ```dart
 
@@ -300,7 +300,7 @@ void main() {
 
 ## Using RobotElement
 
-The `RobotElement` is a class that help you to find a widget in the widget tree and interact with it.
+The `RobotElement` is a class that helps you to find a widget in the widget tree and interact with it.
 
 Here's an example of how to use `RobotElement` in your tests:
 
@@ -356,9 +356,9 @@ void main() {
 ## Loading fonts
 
 To load fonts to show the text and icons in your golden files you can use the `RobotFontLoaderManager`.
-By default the robot will load the material icons and the fonts defined in your `pubspec.yml`. (`MaterialIconsFontLoader` and `PubspecFontLoader`)
+By default, the robot will load the material icons and the fonts defined in your `pubspec.yml`. (`MaterialIconsFontLoader` and `PubspecFontLoader`)
 
-If you need load a font different of the default you can create a custom `RobotFontLoader` and add in the `RobotFontLoaderManager`. Like this:
+If you need to load a font different from the default you can create a custom `RobotFontLoader` and add it to the `RobotFontLoaderManager`. Like this:
 
 ```dart
 
@@ -411,17 +411,17 @@ class MyRobot extends Robot {
 
 ## Loading Assets
 
-The robot will try load all ImageProvider present in the widget tree.
+The robot will try to load all ImageProviders present in the widget tree.
 
-If you need load a asset diferrent of ImageProvider you can do override of method `onLoadAssets` and do it there using `loadImageProvider`.
+If you need to load an asset different from ImageProvider you can override the method `onLoadAssets` and do it there using `loadImageProvider`.
 
 To load assets manually during the test you can call `loadAsyncImageProvider`;
 
 ## Golden diff threshold
 
-Is common we work in the OS different than CI. In this cases could get breaked tests by little difference of pixels in your golden test when running in CI.
+It is common to work in an OS different from CI. In these cases, tests could fail due to slight pixel differences in your golden test when running in CI.
 
-To try avoid this failures you could set a `threshold`. The `threshold` default is 1%, tha is, if the golden test failure with 0.5% of diff your test will pass.
+To try to avoid these failures you could set a `threshold`. The `threshold` default is 1%, that is, if the golden test fails with 0.5% of diff your test will pass.
 
 To change this default value you can set it in `RobotFileComparator`.
 
@@ -441,7 +441,7 @@ Future<void> testExecutable(FutureOr<void> Function() testMain) async {
 
 ```
 
-You also can setting a specific `threshold` to a Robot, just pass the param `goldenThreshold` in your super. This way just in this Robot test will use this `threshold`:
+You also can set a specific `threshold` to a Robot, just pass the param `goldenThreshold` in your super. This way just in this Robot test will use this `threshold`:
 
 ```dart
 
@@ -456,7 +456,7 @@ class ExamplePageRobot extends Robot {
 
 ```
 
-If necessary you can customize the functions `compare`, `udpdate`, or `getTestUri` of `RobotFileComparator`.
+If necessary you can customize the functions `compare`, `update`, or `getTestUri` of `RobotFileComparator`.
 
 Using the file `flutter_test_config.dart`:
 
@@ -484,4 +484,4 @@ Future<void> testExecutable(FutureOr<void> Function() testMain) async {
 | ![](https://raw.githubusercontent.com/RafaelBarbosatec/flutter_robot/refs/heads/main/example/test/presentation/home/golden_files/HomePage_sunny.png) | ![](https://raw.githubusercontent.com/RafaelBarbosatec/flutter_robot/refs/heads/main/example/test/presentation/home/golden_files/HomePage_night_clear.png)   | ![](https://raw.githubusercontent.com/RafaelBarbosatec/flutter_robot/refs/heads/main/example/test/presentation/home/golden_files/HomePage_sunny_cloudy.png)   |
 
 
-You can see a example [here](https://github.com/RafaelBarbosatec/flutter_robot/blob/main/example)
+You can see an example [here](https://github.com/RafaelBarbosatec/flutter_robot/blob/main/example)
