@@ -1,6 +1,5 @@
 import 'package:flutter_robot/src/robot_scenario.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:leak_tracker_flutter_testing/leak_tracker_flutter_testing.dart';
 import 'package:meta/meta.dart';
 import 'package:test_api/scaffolding.dart' as test_package;
 
@@ -78,7 +77,6 @@ void testRobot<R extends Robot>(
   TestVariant<Object?> variant = const DefaultTestVariant(),
   dynamic tags,
   int? retry,
-  LeakTesting? experimentalLeakTesting,
 }) {
   testWidgets(
     description,
@@ -104,6 +102,5 @@ void testRobot<R extends Robot>(
     variant: variant,
     tags: tags,
     retry: retry,
-    experimentalLeakTesting: experimentalLeakTesting,
   );
 }

@@ -1,3 +1,7 @@
+## 0.3.4
+
+* remove `leak_tracker_flutter_testing`
+
 ## 0.3.3+1
 
 * Update README

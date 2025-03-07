@@ -1,6 +1,6 @@
 name: flutter_robot
 description: "Create a widget tests using the Robot Pattern simulating statusBar, opened keyboard, IOS home button, etc"
-version: 0.3.3+1
+version: 0.3.4
 homepage: https://github.com/RafaelBarbosatec/flutter_robot
 
 environment:
@@ -17,7 +17,6 @@ dependencies:
   mocktail: ^1.0.3
   file: ^7.0.0
   platform: ^3.1.4
-  leak_tracker_flutter_testing: any
   meta: any
   test_api: any
 
